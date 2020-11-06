@@ -12,9 +12,9 @@ import { userLoggedIn, userLoggedOut } from './store/login';
 
 const store = configureStore({ reducer });
 
-store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10265' }));
+store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10265', surname: 'Mewan' }));
 
-setTimeout(() => store.dispatch(userLoggedOut()), 2000);
+// setTimeout(() => store.dispatch(userLoggedOut()), 2000);
 
 ReactDOM.render(
   <Provider store={ store }>
