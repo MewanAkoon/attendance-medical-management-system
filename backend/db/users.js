@@ -35,4 +35,6 @@ const users = [
 
 const getUsers = () => users;
 
-module.exports = { getUsers };
+const getUser = id => users.find(user => user.id === id);
+
+module.exports = { getUsers, getUser };
