@@ -1,14 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { getLoggedInUserDetails } from '../store/login';
+import { Redirect } from 'react-router-dom';
 
-const Home = () => {
-	const { surname } = useSelector(getLoggedInUserDetails);
-
+const Home = props => {
 	return (
 		<React.Fragment>
-			<h1>Home</h1>
-			<p>Welcome {surname}</p>
+			{!props.id && <Redirect to='/login' />}
+			<h1>Hello {props.username}</h1>
 		</React.Fragment>
 	);
 };

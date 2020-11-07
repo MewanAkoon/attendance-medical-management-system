@@ -12,7 +12,7 @@ import { userLoggedIn, userLoggedOut } from './store/login';
 
 const store = configureStore({ reducer });
 
-store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10265', surname: 'Mewan' }));
+// store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10265', username: 'Mewan', role: 'admin' }));
 
 // setTimeout(() => store.dispatch(userLoggedOut()), 2000);
 

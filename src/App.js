@@ -6,6 +6,7 @@ import Home from './components/home';
 import Navbar from './components/navbar';
 import Login from './components/login';
 import NotFound from './components/notFound';
+import './css/index.css';
 
 const App = () => {
   const user = useSelector(getLoggedInUserDetails);
@@ -20,7 +21,7 @@ const App = () => {
         <Switch>
           <Route path='/not-found' component={ NotFound } />
           <Route path='/login' render={ (props) => <Login { ...user } { ...props } /> } />
-          <Route path='/home' component={ user.id ? Home : Login } />
+          <Route path='/home' render={ (props) => <Home { ...user } { ...props } /> } />
           <Redirect from='/' exact to={ user.id ? '/home' : '/login' } />
           <Redirect to='/not-found' />
         </Switch>

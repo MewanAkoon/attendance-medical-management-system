@@ -5,7 +5,7 @@ const users = [
     surname: 'Mewan',
     cityOrTown: 'Welimada',
     country: 'Sri lanka',
-    role: ['admin', 'student']
+    role: 'admin'
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ const users = [
     surname: 'Pabasara',
     cityOrTown: 'Galle',
     country: 'Sri lanka',
-    role: ['student']
+    role: 'student'
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ const users = [
     surname: 'Yapa',
     cityOrTown: 'Matara',
     country: 'Sri lanka',
-    role: ['student']
+    role: 'student'
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ const users = [
     surname: 'Hemathilaka',
     cityOrTown: 'Kurunagala',
     country: 'Sri lanka',
-    role: ['student']
+    role: 'student'
   },
 ];
 
