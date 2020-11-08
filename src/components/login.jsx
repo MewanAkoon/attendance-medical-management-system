@@ -3,11 +3,12 @@ import LoginForm from './loginForm';
 import { useDispatch } from 'react-redux';
 
 const Login = props => {
-	const { firstName, username } = props;
+	const { id, firstName, username } = props.user;
 	const dispatch = useDispatch();
 
 	const handleCancel = () => {
 		console.log('Cancel');
+		props.history.push('/home');
 	};
 
 	return (
@@ -15,7 +16,7 @@ const Login = props => {
 			<div className='jumbotron w-50 mx-auto pt-4 pb-5'>
 				<h1 className='text-center display-4'>Login</h1>
 				<hr className='mb-4' />
-				{firstName ? (
+				{id ? (
 					<div>
 						<p>
 							You are already logged in as {firstName} {username}, you need to

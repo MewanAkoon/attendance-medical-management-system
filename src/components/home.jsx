@@ -4,8 +4,10 @@ import { Redirect } from 'react-router-dom';
 const Home = props => {
 	return (
 		<React.Fragment>
-			{!props.id && <Redirect to='/login' />}
-			<h1>Hello {props.username}</h1>
+			{!props.user.id && <Redirect to='/login' />}
+			<h1>
+				Hello {props.user.firstName} {props.user.username}
+			</h1>
 		</React.Fragment>
 	);
 };

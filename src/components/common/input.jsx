@@ -3,9 +3,10 @@ import React from 'react';
 const Input = ({ type, name, label, value, onChange, autoFocus, error }) => {
 	return (
 		<div className='form-group'>
-			<label htmlFor={name}>{label}</label>
+			{/* <label htmlFor={name}>{label}</label> */}
 			<input
 				type={type}
+				placeholder={label}
 				onChange={onChange}
 				name={name}
 				value={value}

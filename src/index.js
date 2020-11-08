@@ -8,13 +8,13 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import reportWebVitals from './reportWebVitals';
-import { userLoggedIn, userLoggedOut } from './store/login';
+// import { userLoggedIn, userLoggedOut } from './store/login';
 
 const store = configureStore({ reducer });
 
 // store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10265', username: 'Mewan', role: 'admin' }));
 
-// setTimeout(() => store.dispatch(userLoggedOut()), 2000);
+// setTimeout(() => store.dispatch(userLoggedOut()), 10000);
 
 ReactDOM.render(
   <Provider store={ store }>

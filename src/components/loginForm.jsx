@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
+import axios from 'axios';
 import { userLoggedIn } from '../store/login';
 
 class LoginForm extends Form {
@@ -14,22 +15,38 @@ class LoginForm extends Form {
 		password: Joi.string().min(8).required().label('Password')
 	});
 
-	doSubmit = () => {
-		this.props.dispatch(
-			userLoggedIn({
-				id: 1,
-				firstName: 'SC/2017/10265',
-				username: 'Mewan',
-				role: 'admin'
-			})
-		);
-		console.log('Submitted');
-		this.props.history.push('/home');
+	doSubmit = async () => {
+		const { username, password } = this.state.data;
+		try {
+			const { data } = await axios.post(
+				`http://192.168.8.101:9000/users/${username}/${password}`
+			);
+
+			this.props.dispatch(
+				userLoggedIn({
+					id: data.id,
+					firstName: data.firstName,
+					username: data.username,
+					role: data.role
+				})
+			);
+
+			this.props.history.push('/home');
+		} catch (err) {
+			const errors = { ...this.state.errors };
+			errors.login = 'Invalid login, please try again';
+			this.setState({ errors });
+		}
 	};
 
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit} className='mx-auto'>
+				{this.state.errors.login && (
+					<small className='alert alert-danger d-block mt-0'>
+						{this.state.errors.login}
+					</small>
+				)}
 				{this.renderInput('username', 'Username')(true)}
 				{this.renderInput('password', 'Password', 'password')(false)}
 				{this.renderSubmitButton('Login')}

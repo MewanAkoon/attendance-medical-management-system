@@ -1,35 +1,39 @@
 const users = [
   {
-    id: 1,
+    id: 'sc10265',
     firstName: 'SC/2017/10265',
-    surname: 'Mewan',
+    username: 'Mewan',
     cityOrTown: 'Welimada',
     country: 'Sri lanka',
-    role: 'admin'
+    role: 'admin',
+    password: '12345678'
   },
   {
-    id: 2,
+    id: 'sc10266',
     firstName: 'SC/2017/10266',
-    surname: 'Pabasara',
+    username: 'Pabasara',
     cityOrTown: 'Galle',
     country: 'Sri lanka',
-    role: 'student'
+    role: 'student',
+    password: '12345678'
   },
   {
-    id: 3,
+    id: 'sc10264',
     firstName: 'SC/2017/10264',
-    surname: 'Yapa',
+    username: 'Yapa',
     cityOrTown: 'Matara',
     country: 'Sri lanka',
-    role: 'student'
+    role: 'student',
+    password: '12345678'
   },
   {
-    id: 4,
+    id: 'sc10262',
     firstName: 'SC/2017/10262',
-    surname: 'Hemathilaka',
+    username: 'Hemathilaka',
     cityOrTown: 'Kurunagala',
     country: 'Sri lanka',
-    role: 'student'
+    role: 'student',
+    password: '12345678'
   },
 ];
 
