@@ -12,7 +12,7 @@ import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({ reducer });
 
-// store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10265', username: 'Mewan', role: 'admin' }));
+// store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10266', username: 'Pabasara', role: 'student', courses: ['CSC2233', 'CSC2263', 'CSC2272'] }));
 
 // setTimeout(() => store.dispatch(userLoggedOut()), 10000);
 

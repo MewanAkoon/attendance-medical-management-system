@@ -15,7 +15,8 @@ const users = [
     cityOrTown: 'Galle',
     country: 'Sri lanka',
     role: 'student',
-    password: '12345678'
+    password: '12345678',
+    courses: ['CSC2233', 'CSC2263', 'CSC2272']
   },
   {
     id: 'sc10264',
@@ -24,7 +25,8 @@ const users = [
     cityOrTown: 'Matara',
     country: 'Sri lanka',
     role: 'student',
-    password: '12345678'
+    password: '12345678',
+    courses: ['CSC2233', 'CSC2252', 'CSC2272']
   },
   {
     id: 'sc10262',
@@ -33,7 +35,8 @@ const users = [
     cityOrTown: 'Kurunagala',
     country: 'Sri lanka',
     role: 'student',
-    password: '12345678'
+    password: '12345678',
+    courses: ['CSC2233', 'CSC2263', 'CSC2272', 'CSC2213']
   },
 ];
 

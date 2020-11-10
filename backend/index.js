@@ -4,12 +4,14 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require("cors");
 const usersRoute = require('./routes/users');
+const coursesRoute = require('./routes/courses');
 
 app.use(cors());
 app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use('/users', usersRoute);
+app.use('/courses', coursesRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello');

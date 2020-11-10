@@ -27,7 +27,8 @@ class LoginForm extends Form {
 					id: data.id,
 					firstName: data.firstName,
 					username: data.username,
-					role: data.role
+					role: data.role,
+					courses: data.courses
 				})
 			);
 
