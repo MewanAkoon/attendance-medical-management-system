@@ -10,7 +10,7 @@ const Course = ({ course }) => {
 				</div>
 				<div className='col'>
 					<div className='card-body'>
-						<p className='my-0'>{course.code}</p>
+						<p className='my-0 font-weight-bold'>{course.code}</p>
 						<p className='my-0'>{course.name}</p>
 					</div>
 				</div>

@@ -5,7 +5,7 @@ import Courses from './courses';
 const Home = props => {
 	return (
 		<React.Fragment>
-			{/* {!props.user.id && <Redirect to='/login' />} */}
+			{!props.user.id && <Redirect to='/login' />}
 			<h1>
 				Hello {props.user.firstName} {props.user.username}
 			</h1>
