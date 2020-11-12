@@ -1,5 +1,25 @@
 import React from 'react';
 import getIcon from '../images';
+import moment from 'moment';
+
+const getDayAndTime = () => {
+	const m = moment();
+	return { day: m.day(), time: m.hour() };
+};
+
+const isActive = schedule => {
+	let classes = 'text-success small';
+	const { day, time } = getDayAndTime();
+
+	const active =
+		schedule.day === day &&
+		time >= schedule.startTime &&
+		time < schedule.startTime + schedule.duration;
+
+	if (!active) classes += ' d-none';
+
+	return classes;
+};
 
 const Course = ({ course }) => {
 	return (
@@ -12,6 +32,7 @@ const Course = ({ course }) => {
 					<div className='card-body'>
 						<p className='my-0 font-weight-bold'>{course.code}</p>
 						<p className='my-0'>{course.name}</p>
+						<span className={isActive(course.schedule)}>Active now</span>
 					</div>
 				</div>
 			</div>
