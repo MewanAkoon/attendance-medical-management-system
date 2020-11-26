@@ -11,9 +11,12 @@ import CurrentCourse from './components/student/currentCourse';
 
 const App = () => {
   const user = useSelector(getLoggedInUserDetails);
+  let navClasses = 'navbar navbar-expand-sm navbar-dark bg-';
+  navClasses += user.role === 'medical' ? 'success' : 'primary';
+
   return (
     <React.Fragment>
-      <div className='navbar navbar-expand-sm navbar-dark bg-primary'>
+      <div className={ navClasses }>
         <div className='container'>
           <Navbar { ...user } />
         </div>

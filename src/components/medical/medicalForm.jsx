@@ -6,7 +6,7 @@ import { Dropdown } from 'react-bootstrap';
 
 class MedicalForm extends Form {
 	state = {
-		data: { index: '' },
+		data: { index: '', reason: '' },
 		errors: {}
 	};
 
@@ -15,7 +15,15 @@ class MedicalForm extends Form {
 			.required()
 			.regex(/^sc[0-9]{5}$/)
 			.message('*Invalid User.')
-			.label('Index Number')
+			.label('Index Number'),
+		firstName: Joi.string().required(),
+		username: Joi.string().required(),
+		reason: Joi.string()
+			.required()
+			.label('Reason')
+			.min(10)
+			.regex(/^[a-zA-Z .]+$/)
+			.message('*Invalid Input.')
 	});
 
 	async componentDidUpdate(prevProps, prevState) {
@@ -38,34 +46,42 @@ class MedicalForm extends Form {
 	};
 
 	getUser = async index => {
-		const { data: user } = await axios.get(
-			`http://localhost:9000/users/${index}`
-		);
+		try {
+			const { data: user } = await axios.get(
+				`http://localhost:9000/users/${index}`
+			);
 
-		const { firstName, username } = user;
-		const data = { ...this.state.data, firstName, username };
+			const { firstName, username } = user;
+			const data = { ...this.state.data, firstName, username };
 
-		this.setState({ data });
+			const errors = { ...this.state.errors };
+			delete errors.user;
+
+			this.setState({ data, errors });
+		} catch (err) {
+			const errors = { ...this.state.errors };
+			errors.index = '*User not found.';
+			this.setState({ errors });
+			console.log(err.message);
+		}
 	};
 
 	displayUserDetails = () => {
 		return (
-			<div className='d-flex'>
-				<input
-					className='form-control form-control-sm mr-1 disabled'
-					value={this.state.data.firstName}
-					readOnly
-				/>
-				<input
-					className='form-control form-control-sm ml-1 disabled'
-					value={this.state.data.username}
-					readOnly
-				/>
+			<div className='d-flex mb-3'>
+				<div className='form-control form-control-sm bg-secondary text-white mr-1'>
+					{this.state.data.firstName}
+				</div>
+				<div className='form-control form-control-sm bg-secondary text-white ml-1'>
+					{this.state.data.username}
+				</div>
 			</div>
 		);
 	};
 
-	doSubmit = () => {};
+	doSubmit = () => {
+		console.log('Success');
+	};
 
 	render() {
 		return (
@@ -75,7 +91,11 @@ class MedicalForm extends Form {
 					<form onSubmit={this.handleSubmit} className='mx-auto'>
 						{this.renderInput('index', 'Index Number')(true)}
 						{this.state.data.username && (
-							<Dropdown>{this.displayUserDetails()}</Dropdown>
+							<Dropdown>
+								{this.displayUserDetails()}
+								{this.renderInput('reason', 'Reason')(false)}
+								{this.renderSubmitButton('Submit')}
+							</Dropdown>
 						)}
 					</form>
 				</div>
