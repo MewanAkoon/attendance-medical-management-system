@@ -3,8 +3,8 @@ const courses = [
     code: 'CSC2213',
     name: 'Rapid Application Development',
     schedule: {
-      day: 4,
-      startTime: 10,
+      day: 5,
+      startTime: 15,
       duration: 2
     }
   },
@@ -22,7 +22,7 @@ const courses = [
     name: 'Internet Programming',
     schedule: {
       day: 4,
-      startTime: 12,
+      startTime: 15,
       duration: 2
     }
   },
@@ -49,7 +49,7 @@ const courses = [
     name: 'Multimedia and Video Production',
     schedule: {
       day: 4,
-      startTime: 10,
+      startTime: 13,
       duration: 2
     }
   },

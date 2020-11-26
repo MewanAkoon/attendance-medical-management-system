@@ -1,6 +1,7 @@
 import React from 'react';
 import getIcon from '../images';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const getDayAndTime = () => {
 	const m = moment();
@@ -30,7 +31,11 @@ const Course = ({ course }) => {
 				</div>
 				<div className='col'>
 					<div className='card-body'>
-						<p className='my-0 font-weight-bold'>{course.code}</p>
+						<p className='my-0 font-weight-bold'>
+							<Link to={{ pathname: `/courses/${course.code}` }}>
+								{course.code}
+							</Link>
+						</p>
 						<p className='my-0'>{course.name}</p>
 						<span className={isActive(course.schedule)}>Active now</span>
 					</div>
