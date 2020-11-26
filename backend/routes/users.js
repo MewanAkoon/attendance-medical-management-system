@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const user = getUser(req.params.id);
-  if (user) return res.status(200).json(user);
+  if (user) return res.status(200).send(user);
   res.status(404).send('Error');
 });
 

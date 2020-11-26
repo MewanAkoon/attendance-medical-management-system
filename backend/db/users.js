@@ -38,6 +38,15 @@ const users = [
     password: '12345678',
     courses: ['CSC2233', 'CSC2263', 'CSC2272', 'CSC2213']
   },
+  {
+    id: 'med1',
+    firstName: 'G.A.M.D.M.B.',
+    username: 'Amarakoon',
+    cityOrTown: 'Bandarawela',
+    country: 'Sri lanka',
+    role: 'medical',
+    password: '12345678',
+  }
 ];
 
 const getUsers = () => users;

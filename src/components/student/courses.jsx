@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Loading from './common/loading';
+import Loading from '../common/loading';
 import Course from './course';
 
 class Courses extends Component {

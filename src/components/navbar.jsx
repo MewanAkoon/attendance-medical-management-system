@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import logo from '../images/logos/3.svg';
 
 const Navbar = props => {
-	const { id, firstName, username } = props;
+	const { id, firstName, username, role } = props;
 	const dispatch = useDispatch();
 
 	const handleLogout = () => {
@@ -20,7 +20,6 @@ const Navbar = props => {
 					style={{ width: '1.5em', height: '1.5em' }}
 					alt='logo'
 				/>
-				{/* <i className='fa fa-bug' aria-hidden='true'></i> */}
 			</span>
 			<ul className='navbar-nav'>
 				<li className='nav-item nav-link text-light'>
@@ -28,6 +27,15 @@ const Navbar = props => {
 				</li>
 				{id && (
 					<NavDropdown title={<i className='fa fa-cog' />} id='dropdown-navbar'>
+						{role === 'medical' && (
+							<React.Fragment>
+								<NavDropdown.Item>
+									<i className='fa fa-plus-square mr-2' aria-hidden='true' />
+									Medical Reports
+								</NavDropdown.Item>
+								<hr className='my-1 mx-2' />
+							</React.Fragment>
+						)}
 						<NavDropdown.Item onClick={handleLogout}>
 							<i className='fa fa-sign-out mr-2' aria-hidden='true' />
 							Logout

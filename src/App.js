@@ -7,7 +7,7 @@ import Navbar from './components/navbar';
 import Login from './components/login';
 import NotFound from './components/notFound';
 import './css/index.css';
-import CurrentCourse from './components/currentCourse';
+import CurrentCourse from './components/student/currentCourse';
 
 const App = () => {
   const user = useSelector(getLoggedInUserDetails);

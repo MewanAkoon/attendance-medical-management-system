@@ -8,13 +8,7 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import reportWebVitals from './reportWebVitals';
-// import { userLoggedIn, userLoggedOut } from './store/login';
-
 const store = configureStore({ reducer });
-
-// store.dispatch(userLoggedIn({ id: 1, firstName: 'SC/2017/10266', username: 'Pabasara', role: 'student', courses: ['CSC2233', 'CSC2263', 'CSC2272'] }));
-
-// setTimeout(() => store.dispatch(userLoggedOut()), 10000);
 
 ReactDOM.render(
   <Provider store={ store }>
@@ -25,7 +19,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
