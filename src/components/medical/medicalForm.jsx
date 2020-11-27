@@ -93,7 +93,7 @@ class MedicalForm extends Form {
 						{this.state.data.username && (
 							<Dropdown>
 								{this.displayUserDetails()}
-								{this.renderInput('reason', 'Reason')(false)}
+								{this.renderTextArea('reason', 'Reason')}
 								{this.renderSubmitButton('Submit')}
 							</Dropdown>
 						)}

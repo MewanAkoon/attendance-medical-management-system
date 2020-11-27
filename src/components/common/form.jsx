@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from './input';
+import TextArea from './textarea';
 
 class Form extends Component {
 	state = {
@@ -60,6 +61,20 @@ class Form extends Component {
 				value={data[name]}
 				error={errors[name]}
 				autoFocus={autoFocus}
+			/>
+		);
+	};
+
+	renderTextArea = (name, label) => {
+		const { data, errors } = this.state;
+
+		return (
+			<TextArea
+				name={name}
+				onChange={this.handleChange}
+				label={label}
+				value={data[name]}
+				error={errors[name]}
 			/>
 		);
 	};
