@@ -3,8 +3,18 @@ import { Redirect } from 'react-router-dom';
 import MedicalForm from './medical/medicalForm';
 import Courses from './student/courses';
 
+const sayHello = ({ firstName, username }) => (
+	<h1>
+		Hello {firstName} {username}
+	</h1>
+);
+
 const Home = props => {
 	switch (props.user.role) {
+		case 'admin':
+			return sayHello(props.user);
+		case 'lecturer':
+			return sayHello(props.user);
 		case 'student':
 			return <Courses {...props} />;
 		case 'medical':
