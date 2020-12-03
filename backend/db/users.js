@@ -1,14 +1,5 @@
 const users = [
   {
-    id: 'sc10265',
-    firstName: 'SC/2017/10265',
-    username: 'Mewan',
-    cityOrTown: 'Welimada',
-    country: 'Sri lanka',
-    role: 'admin',
-    password: '12345678'
-  },
-  {
     id: 'sc10266',
     firstName: 'SC/2017/10266',
     username: 'Pabasara',
@@ -39,10 +30,19 @@ const users = [
     courses: ['CSC2233', 'CSC2263', 'CSC2272', 'CSC2213']
   },
   {
-    id: 'med1',
-    firstName: 'G.A.M.D.M.B.',
+    id: 'admin1',
+    firstName: 'Damitha',
     username: 'Amarakoon',
-    cityOrTown: 'Bandarawela',
+    cityOrTown: 'Welimada',
+    country: 'Sri lanka',
+    role: 'admin',
+    password: '12345678'
+  },
+  {
+    id: 'med1',
+    firstName: 'John',
+    username: 'Doe',
+    cityOrTown: 'Matara',
     country: 'Sri lanka',
     role: 'medical',
     password: '12345678',
@@ -51,6 +51,10 @@ const users = [
 
 const getUsers = () => users;
 
-const getUser = id => users.find(user => user.id === id);
+const getUser = (id, role) => {
+  const user = users.find(user => user.id === id);
+  if (role) return user.role === role ? user : undefined;
+  return user;
+}
 
 module.exports = { getUsers, getUser };

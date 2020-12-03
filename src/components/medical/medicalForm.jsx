@@ -48,7 +48,7 @@ class MedicalForm extends Form {
 	getUser = async index => {
 		try {
 			const { data: user } = await axios.get(
-				`http://localhost:9000/users/${index}`
+				`http://localhost:9000/api/users/${index}?role=student`
 			);
 
 			const { firstName, username } = user;
@@ -62,7 +62,6 @@ class MedicalForm extends Form {
 			const errors = { ...this.state.errors };
 			errors.index = '*User not found.';
 			this.setState({ errors });
-			console.log(err.message);
 		}
 	};
 

@@ -3,6 +3,7 @@ import { NavDropdown } from 'react-bootstrap';
 import { userLoggedOut } from '../store/login';
 import { useDispatch } from 'react-redux';
 import logo from '../images/logos/3.svg';
+import MedicalNav from './medical/navItem';
 
 const Navbar = props => {
 	const { id, firstName, username, role } = props;
@@ -12,6 +13,7 @@ const Navbar = props => {
 		dispatch(userLoggedOut());
 		console.log('Logging Out');
 	};
+
 	return (
 		<React.Fragment>
 			<span className='navbar-brand'>
@@ -27,15 +29,8 @@ const Navbar = props => {
 				</li>
 				{id && (
 					<NavDropdown title={<i className='fa fa-cog' />} id='dropdown-navbar'>
-						{role === 'medical' && (
-							<React.Fragment>
-								<NavDropdown.Item>
-									<i className='fa fa-plus-square mr-2' aria-hidden='true' />
-									Medical Reports
-								</NavDropdown.Item>
-								<hr className='my-1 mx-2' />
-							</React.Fragment>
-						)}
+						{role === 'medical' && <MedicalNav {...props} />}
+
 						<NavDropdown.Item onClick={handleLogout}>
 							<i className='fa fa-sign-out mr-2' aria-hidden='true' />
 							Logout

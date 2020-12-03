@@ -8,6 +8,7 @@ import Login from './components/login';
 import NotFound from './components/notFound';
 import './css/index.css';
 import CurrentCourse from './components/student/currentCourse';
+import MedicalRecords from './components/medical/medicalRecords';
 
 const App = () => {
   const user = useSelector(getLoggedInUserDetails);
@@ -24,6 +25,7 @@ const App = () => {
       </div>
       <div className='container mt-3'>
         <Switch>
+          <Route path='/medical/records' render={ props => <MedicalRecords user={ user } { ...props } /> } />
           <Route path='/courses/:code' render={ props => <CurrentCourse user={ user } { ...props } /> } />
           <Route path='/not-found' component={ NotFound } />
           <Route

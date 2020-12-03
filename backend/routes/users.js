@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { getUsers, getUser } = require('../db/users');
 
-const users = getUsers();
 
 router.get('/', (req, res) => {
+  const users = getUsers();
   res.status(200).json(users);
 });
 
 router.get('/:id', (req, res) => {
-  const user = getUser(req.params.id);
+  const role = req.query.role ? req.query.role : '';
+  const user = getUser(req.params.id, role);
   if (user) return res.status(200).send(user);
-  res.status(404).send('Error');
+  res.status(404).send('Error, user not found');
 });
 
 router.post('/:id/:password', (req, res) => {
