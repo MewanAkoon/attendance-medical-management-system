@@ -19,7 +19,7 @@ class LoginForm extends Form {
 		const { username, password } = this.state.data;
 		try {
 			const { data } = await axios.post(
-				`http://localhost:9000/users/${username}/${password}`
+				`http://localhost:9000/api/users/${username}/${password}`
 			);
 
 			this.props.dispatch(

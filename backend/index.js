@@ -10,8 +10,8 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use('/users', usersRoute);
-app.use('/courses', coursesRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/courses', coursesRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello');
