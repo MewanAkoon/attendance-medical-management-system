@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 const schema = new mongoose.Schema({
-  id: {
+  _id: {
     type: String,
-    required: true,
-    match: /^sc[0-9]{5}$/
+    required: true
   },
   firstName: { type: String, required: true },
   username: { type: String, required: true },
@@ -20,20 +19,25 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8
-  }
+  },
+  courses: [{
+    type: String,
+    match: /^(CSC|MAT|FSC|AMT|PHY)[a-zA-Z0-9]{3}([0-9]|α|β|δ)$/
+  }]
 });
 
 const User = mongoose.model('User', schema);
 
 const validate = (user) => {
   const schema = Joi.object({
-    id: Joi.string().required().regex(/^sc[0-9]{5}$/),
+    _id: Joi.string().required(),
     firstName: Joi.string().required(),
     username: Joi.string().required(),
     cityOrTown: Joi.string().min(3),
     country: Joi.string().min(3),
     role: Joi.string().required().regex(/^(admin|lecturer|student|medical)$/),
-    password: Joi.string().required().min(8)
+    password: Joi.string().required().min(8),
+    courses: Joi.array().items(Joi.string().regex(/^(CSC|MAT|FSC|AMT|PHY)[a-zA-Z0-9]{3}([0-9]|α|β|δ)/))
   });
 
   return schema.validate(user);

@@ -6,7 +6,8 @@ const courses = [
       day: 5,
       startTime: 15,
       duration: 2
-    }
+    },
+    lecturer: 'lec1'
   },
   {
     code: 'CSC2222',
@@ -15,7 +16,8 @@ const courses = [
       day: 4,
       startTime: 10,
       duration: 2
-    }
+    },
+    lecturer: 'lec2'
   },
   {
     code: 'CSC2233',
@@ -24,7 +26,8 @@ const courses = [
       day: 4,
       startTime: 15,
       duration: 2
-    }
+    },
+    lecturer: 'lec1'
   },
   {
     code: 'CSC2242',
@@ -33,7 +36,8 @@ const courses = [
       day: 4,
       startTime: 10,
       duration: 2
-    }
+    },
+    lecturer: 'lec2'
   },
   {
     code: 'CSC2252',
@@ -42,7 +46,8 @@ const courses = [
       day: 4,
       startTime: 10,
       duration: 2
-    }
+    },
+    lecturer: 'lec1'
   },
   {
     code: 'CSC2263',
@@ -51,7 +56,8 @@ const courses = [
       day: 4,
       startTime: 13,
       duration: 2
-    }
+    },
+    lecturer: 'lec2'
   },
   {
     code: 'CSC2272',
@@ -60,7 +66,8 @@ const courses = [
       day: 4,
       startTime: 10,
       duration: 2
-    }
+    },
+    lecturer: 'lec1'
   }
 ];
 
@@ -68,4 +75,6 @@ const getCourses = () => courses;
 
 const getCourse = code => courses.find(c => c.code === code);
 
-module.exports = { getCourses, getCourse };
+const addCourse = course => courses.push(course);
+
+module.exports = { getCourses, getCourse, addCourse };
