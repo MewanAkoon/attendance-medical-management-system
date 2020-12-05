@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+import { default as Lecturer } from '../../lecturer/currentCourse';
+
 class CurrentCourse extends Component {
 	state = {
 		course: {}
@@ -19,10 +21,15 @@ class CurrentCourse extends Component {
 	}
 
 	render() {
+		const { user } = this.props;
 		return (
 			<React.Fragment>
-				{!this.props.user.id && <Redirect to='/login' />}
-				<h1>Hello {this.props.match.params.code}</h1>
+				{!user.id && <Redirect to='/login' />}
+				{user.role === 'lecturer' ? (
+					<Lecturer {...this.props} />
+				) : (
+					<h1>Hello {this.props.match.params.code}</h1>
+				)}
 			</React.Fragment>
 		);
 	}

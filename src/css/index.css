@@ -1,3 +1,12 @@
 #dropdown-navbar::after {
   display: none;
 }
+
+.qrbox {
+  display: flex;
+  width: 300px;
+  border: 2px solid #bada55;
+  border-radius: 0.5rem;
+  height: 300px;
+  padding: 1rem;
+}
