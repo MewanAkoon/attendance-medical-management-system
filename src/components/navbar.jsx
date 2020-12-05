@@ -9,11 +9,6 @@ const Navbar = props => {
 	const { id, firstName, username, role } = props;
 	const dispatch = useDispatch();
 
-	const handleLogout = () => {
-		dispatch(userLoggedOut());
-		console.log('Logging Out');
-	};
-
 	return (
 		<React.Fragment>
 			<span className='navbar-brand'>
@@ -31,7 +26,7 @@ const Navbar = props => {
 					<NavDropdown title={<i className='fa fa-cog' />} id='dropdown-navbar'>
 						{role === 'medical' && <MedicalNav {...props} />}
 
-						<NavDropdown.Item onClick={handleLogout}>
+						<NavDropdown.Item onClick={() => dispatch(userLoggedOut())}>
 							<i className='fa fa-sign-out mr-2' aria-hidden='true' />
 							Logout
 						</NavDropdown.Item>

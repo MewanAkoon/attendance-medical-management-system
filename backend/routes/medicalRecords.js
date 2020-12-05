@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { getMedicalRecords, getMedicalRecord } = require('../db/medicalRecords');
+const { getMedicalRecords, getMedicalRecord, addMedicalRecord } = require('../db/medicalRecords');
+const { MedicalRecord, validate } = require('../models/medicalRecords');
 
 router.get('/', (req, res) => {
   const medicals = getMedicalRecords();
@@ -13,5 +14,13 @@ router.get('/:index', (req, res) => {
   res.status(200).json(medical);
 });
 
+router.post('/', (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(404).send(error.details[0].message);
+
+  const record = new MedicalRecord({ ...req.body, date: Date.now() });
+  addMedicalRecord(record);
+  res.send(record);
+});
 
 module.exports = router;

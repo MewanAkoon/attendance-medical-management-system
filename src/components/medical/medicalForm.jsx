@@ -3,6 +3,7 @@ import Form from '../common/form';
 import Joi from 'joi';
 import axios from 'axios';
 import { Dropdown } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 class MedicalForm extends Form {
 	state = {
@@ -21,7 +22,7 @@ class MedicalForm extends Form {
 		reason: Joi.string()
 			.required()
 			.label('Reason')
-			.min(10)
+			.min(5)
 			.regex(/^[a-zA-Z .]+$/)
 			.message('*Invalid Input.')
 	});
@@ -78,13 +79,27 @@ class MedicalForm extends Form {
 		);
 	};
 
-	doSubmit = () => {
-		console.log('Success');
+	doSubmit = async () => {
+		const { index, reason } = this.state.data;
+
+		try {
+			await axios.post('http://localhost:9000/api/medicals', { index, reason });
+			toast.success('Medical Submitted.');
+			this.setState({ data: { index: '', reason: '' }, reason: {} });
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	render() {
 		return (
 			<React.Fragment>
+				<ToastContainer
+					position='top-center'
+					autoClose={2000}
+					pauseOnHover={false}
+					className='text-center'
+				/>
 				<div className='jumbotron w-50 mx-auto pt-4 pb-5'>
 					<h1 className='text-center display-4 mb-4'>Medical Form</h1>
 					<form onSubmit={this.handleSubmit} className='mx-auto'>
