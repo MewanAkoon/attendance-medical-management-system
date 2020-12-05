@@ -19,7 +19,7 @@ const schema = new mongoose.Schema({
 
 const MedicalRecord = mongoose.model('Medical Record', schema);
 
-const validateMedicalRecord = (record) => {
+const validate = (record) => {
   const schema = Joi.object({
     index: Joi.string().required().regex(/^sc[0-9]{5}$/).min(7),
     reason: Joi.string().min(5).max(50).required()
@@ -28,7 +28,7 @@ const validateMedicalRecord = (record) => {
   return schema.validate(record);
 }
 
-module.exports = { MedicalRecord, validate: validateMedicalRecord };
+module.exports = { MedicalRecord, validate };
 
 const dummy = [
   {

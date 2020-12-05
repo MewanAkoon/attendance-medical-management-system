@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { getMedicalRecords, getMedicalRecord, addMedicalRecord } = require('../db/medicalRecords');
-const { MedicalRecord, validate } = require('../models/medicalRecords');
+const { MedicalRecord, validate } = require('../models/medicalRecord');
 
 router.get('/', (req, res) => {
   const medicals = getMedicalRecords();
