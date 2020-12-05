@@ -2,8 +2,8 @@ import React from 'react';
 import moment from 'moment';
 
 const noRecordsFound = () => (
-	<div className='alert alert-danger text-center'>
-		<h1 className='display-5'>No Records Found</h1>
+	<div className='alert alert-danger text-center w-50 mx-auto'>
+		<p className='lead mb-0'>No Records Found</p>
 	</div>
 );
 

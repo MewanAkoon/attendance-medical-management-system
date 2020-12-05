@@ -22,7 +22,8 @@ const schema = new mongoose.Schema({
   },
   courses: [{
     type: String,
-    match: /^(CSC|MAT|FSC|AMT|PHY)[a-zA-Z0-9]{3}([0-9]|α|β|δ)$/
+    match: /^(CSC|MAT|FSC|AMT|PHY)[a-zA-Z0-9]{3}([0-9]|α|β|δ)$/,
+    ref: 'Course'
   }]
 });
 

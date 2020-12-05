@@ -3,6 +3,7 @@ const app = express();
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require("cors");
+const mongoose = require('mongoose');
 
 const usersRoute = require('./routes/users');
 const coursesRoute = require('./routes/courses');
@@ -12,6 +13,10 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
+
+mongoose.connect('mongodb://localhost/amms', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch((err) => console.error('Couldn\'t connect to MongoDB...', err));
 
 app.use('/api/users', usersRoute);
 app.use('/api/courses', coursesRoute);

@@ -98,6 +98,7 @@ class MedicalForm extends Form {
 					position='top-center'
 					autoClose={2000}
 					pauseOnHover={false}
+					hideProgressBar={true}
 					className='text-center'
 				/>
 				<div className='jumbotron w-50 mx-auto pt-4 pb-5'>

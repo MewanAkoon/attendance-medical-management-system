@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import reportWebVitals from './reportWebVitals';
 
 import reducer from './store';
-import { userLoggedIn } from './store/login';
+// import { userLoggedIn } from './store/login';
 
 const store = configureStore({ reducer });
 
@@ -22,12 +22,12 @@ const store = configureStore({ reducer });
 //   courses: ['CSC2233', 'CSC2263', 'CSC2272']
 // };
 
-const user = {
-  id: 'med1',
-  firstName: 'John',
-  username: 'Doe',
-  role: 'medical',
-}
+// const user = {
+//   id: 'med1',
+//   firstName: 'John',
+//   username: 'Doe',
+//   role: 'medical',
+// }
 
 // const user = {
 //   id: 'admin1',
@@ -37,7 +37,7 @@ const user = {
 //   role: 'admin',
 // }
 
-store.dispatch(userLoggedIn(user));
+// store.dispatch(userLoggedIn(user));
 
 ReactDOM.render(
   <Provider store={ store }>

@@ -24,7 +24,7 @@ class LoginForm extends Form {
 
 			this.props.dispatch(
 				userLoggedIn({
-					id: data.id,
+					id: data._id,
 					firstName: data.firstName,
 					username: data.username,
 					role: data.role,

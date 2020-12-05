@@ -6,7 +6,8 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 7,
-    match: /^sc[0-9]{5}$/
+    match: /^sc[0-9]{5}$/,
+    ref: 'User'
   },
   reason: {
     type: String,
