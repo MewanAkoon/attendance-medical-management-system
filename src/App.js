@@ -2,12 +2,13 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { getLoggedInUserDetails } from './store/login';
 import { useSelector } from 'react-redux';
+import './css/index.css';
+
 import Home from './components/home';
 import Navbar from './components/navbar';
 import Login from './components/login';
 import NotFound from './components/notFound';
-import './css/index.css';
-import CurrentCourse from './components/student/currentCourse';
+import CurrentCourse from './components/common/course/currentCourse';
 import MedicalRecords from './components/medical/medicalRecords';
 
 const App = () => {

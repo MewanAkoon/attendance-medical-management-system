@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import MedicalForm from './medical/medicalForm';
-import Courses from './student/courses';
+import Courses from './common/course/courses';
 
 const sayHello = ({ firstName, username }) => (
 	<h1>
@@ -14,7 +14,6 @@ const Home = props => {
 		case 'admin':
 			return sayHello(props.user);
 		case 'lecturer':
-			return sayHello(props.user);
 		case 'student':
 			return <Courses {...props} />;
 		case 'medical':

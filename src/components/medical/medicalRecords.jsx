@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+
 import Loading from '../common/loading';
 import MedicalTable from './medicalTable';
 
@@ -13,9 +15,17 @@ class MedicalRecords extends Component {
 		this.setState({ records, loading: false });
 	}
 
+	componentWillUnmount() {}
+
 	render() {
 		const { records, loading } = this.state;
-		return loading ? <Loading /> : <MedicalTable records={records} />;
+
+		return (
+			<React.Fragment>
+				{!this.props.user.id && <Redirect to='/login' />}
+				{loading ? <Loading /> : <MedicalTable records={records} />}
+			</React.Fragment>
+		);
 	}
 }
 

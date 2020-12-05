@@ -1,5 +1,5 @@
 import React from 'react';
-import getIcon from '../../images';
+import getIcon from '../../../images';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 

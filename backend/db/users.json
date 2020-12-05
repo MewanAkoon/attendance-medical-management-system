@@ -48,6 +48,7 @@
   "cityOrTown": "Charleston",
   "country": "USA",
   "role": "lecturer",
+  "courses": ["CSC2213", "CSC2233", "CSC2252", "CSC2272"],
   "password": "12345678"
 }, {
   "_id": "lec2",
@@ -56,5 +57,6 @@
   "cityOrTown": "Cheyenne",
   "country": "USA",
   "role": "lecturer",
+  "courses": ["CSC2222", "CSC2242", "CSC2263"],
   "password": "12345678"
 }]

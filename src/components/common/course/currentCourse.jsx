@@ -10,7 +10,7 @@ class CurrentCourse extends Component {
 	async componentDidMount() {
 		try {
 			const { data: course } = await axios.get(
-				`http://localhost:9000/courses/${this.props.match.params.code}`
+				`http://localhost:9000/api/courses/${this.props.match.params.code}`
 			);
 			this.setState({ course });
 		} catch (err) {
