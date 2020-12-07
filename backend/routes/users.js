@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 
     if (req.query.role) users = users.filter(user => user.role === req.query.role);
 
-    if (!users) return res.status(404).send('No users in the database...');
+    if (users.length === 0) return res.status(404).send('No users in the database...');
     res.send(users);
   } catch (err) {
     res.status(400).send(err);
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     if (req.query.role && user.role === req.query.role) return res.send(user);
     if (!req.query.role) return res.send(user);
 
-    res.status(404).send('Error, user not found.');
+    res.status(404).send('Error, user not found...');
   } catch (err) {
     res.status(400).send(err);
   }
