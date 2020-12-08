@@ -21,6 +21,10 @@ const schema = new mongoose.Schema({
   lecturer: {
     type: String,
     ref: 'User'
+  },
+  password: {
+    type: String,
+    minlength: 10
   }
 });
 
@@ -39,6 +43,13 @@ const validate = course => {
   });
 
   return schema.validate(course);
-}
+};
 
-module.exports = { Course, validate };
+const validatePassword = password => {
+  const schema = Joi.object({
+    password: Joi.string().min(7).max(13).required()
+  });
+  return schema.validate(password);
+};
+
+module.exports = { Course, validate, validatePassword };

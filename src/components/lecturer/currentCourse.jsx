@@ -1,7 +1,43 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class CurrentCourse extends Component {
-	state = { isActive: false, url: '' };
+	state = { course: {}, password: '', url: '' };
+
+	async componentDidMount() {
+		try {
+			const code = this.props.match.params.code;
+			const { data } = await axios.get(
+				`http://localhost:9000/api/courses/${code}`
+			);
+
+			const course = {
+				code: data.code,
+				name: data.name,
+				schedule: data.schedule
+			};
+
+			this.setState({ course });
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
+	async componentDidUpdate(prevProps, prevState) {
+		if (
+			prevState !== this.state &&
+			prevState.password !== this.state.password
+		) {
+			try {
+				const { course, password } = this.state;
+				await axios.patch(
+					`http://localhost:9000/api/courses/${course.code}/${password}`
+				);
+			} catch (err) {
+				console.error(err);
+			}
+		}
+	}
 
 	getTime = () => {
 		const date = new Date();
@@ -17,13 +53,13 @@ class CurrentCourse extends Component {
 		const baseURL = 'http://api.qrserver.com/v1/create-qr-code/';
 		const url = `${baseURL}?data=${password}&size=${size}`;
 
-		this.setState({ url });
+		this.setState({ url, password });
 	};
 
 	render() {
 		return (
 			<React.Fragment>
-				<h1>{this.props.match.params.code}</h1>
+				<h1>{this.state.course.code}</h1>
 				<div>
 					<button className='btn btn-primary' onClick={this.generateQR}>
 						Generate QR

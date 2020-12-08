@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { Course, validate } = require('../models/course');
+const { Course, validate, validatePassword } = require('../models/course');
 
 router.get('/', async (req, res) => {
   try {
@@ -33,6 +33,20 @@ router.post('/', async (req, res) => {
     res.send(course);
   } catch (err) {
     res.status(400).send(err);
+  }
+});
+
+router.patch('/:code/:password', async (req, res) => {
+  const { error } = validatePassword({ password: req.params.password });
+  if (error) return res.status(404).send(error.details[0].message);
+
+
+  try {
+    const course = await Course.findOneAndUpdate({ code: req.params.code }, { password: req.params.password }, { new: true });
+    await course.save();
+    res.send(course);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 

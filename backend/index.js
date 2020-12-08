@@ -14,7 +14,7 @@ app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost/amms', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/amms', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true })
   .then(() => console.log('Connected to MongoDB...'))
   .catch((err) => console.error('Couldn\'t connect to MongoDB...', err));
 
@@ -23,7 +23,7 @@ app.use('/api/courses', coursesRoute);
 app.use('/api/medicals', medicalsRoute);
 
 app.get('/', (req, res) => {
-  res.send('Hello');
+  res.send('Welcome to AMMS - UOR');
 });
 
 const PORT = process.env.PORT || 9000;
