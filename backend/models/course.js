@@ -25,7 +25,8 @@ const schema = new mongoose.Schema({
   password: {
     type: String,
     minlength: 10
-  }
+  },
+  dates: [String]
 });
 
 const Course = mongoose.model('Course', schema);

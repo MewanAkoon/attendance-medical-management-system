@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const usersRoute = require('./routes/users');
 const coursesRoute = require('./routes/courses');
 const medicalsRoute = require('./routes/medicalRecords');
+const attendanceRoute = require('./routes/attendance');
 
 app.use(cors());
 app.use(helmet());
@@ -21,6 +22,7 @@ mongoose.connect('mongodb://localhost/amms', { useNewUrlParser: true, useUnified
 app.use('/api/users', usersRoute);
 app.use('/api/courses', coursesRoute);
 app.use('/api/medicals', medicalsRoute);
+app.use('/api/attendance', attendanceRoute);
 
 app.get('/', (req, res) => {
   res.send('Welcome to AMMS - UOR');

@@ -45,15 +45,17 @@ class CurrentCourse extends Component {
 	};
 
 	generateQR = () => {
-		const size = '1000x1000';
-		const code = this.props.match.params.code;
+		if (!this.state.password) {
+			const size = '1000x1000';
+			const code = this.props.match.params.code;
 
-		const password = `${code}${this.getTime()}`;
+			const password = `${code}${this.getTime()}`;
 
-		const baseURL = 'http://api.qrserver.com/v1/create-qr-code/';
-		const url = `${baseURL}?data=${password}&size=${size}`;
+			const baseURL = 'http://api.qrserver.com/v1/create-qr-code/';
+			const url = `${baseURL}?data=${password}&size=${size}`;
 
-		this.setState({ url, password });
+			this.setState({ url, password });
+		}
 	};
 
 	render() {

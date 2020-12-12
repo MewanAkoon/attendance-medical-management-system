@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 
 const { Course, validate, validatePassword } = require('../models/course');
 
@@ -40,10 +41,14 @@ router.patch('/:code/:password', async (req, res) => {
   const { error } = validatePassword({ password: req.params.password });
   if (error) return res.status(404).send(error.details[0].message);
 
+  const timestamp = moment().format('YYYY:MM:DD HH:mm:ss');
 
   try {
-    const course = await Course.findOneAndUpdate({ code: req.params.code }, { password: req.params.password }, { new: true });
-    await course.save();
+    let course = await Course.findOne({ code: req.params.code });
+    course.password = req.params.password;
+    course.dates.push(timestamp);
+
+    course = await course.save();
     res.send(course);
   } catch (err) {
     res.status(400).send(err.message);
