@@ -50,9 +50,24 @@ router.patch('/:code/:password', async (req, res) => {
 
     course = await course.save();
     res.send(course);
+
+    const timeOut = 5 * 60 * 1000; // 5 mins
+    setTimeout(() => deleteCoursePassword(req.params.code), timeOut);
   } catch (err) {
+    console.log(err.message);
     res.status(400).send(err.message);
   }
 });
+
+const deleteCoursePassword = async code => {
+  try {
+    const course = await Course.findOne({ code });
+    course.password = undefined;
+    await course.save();
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).send(err.message);
+  }
+}
 
 module.exports = router;

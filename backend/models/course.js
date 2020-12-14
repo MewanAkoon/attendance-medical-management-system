@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
   },
   schedule: {
     day: { type: Number, min: 1, max: 7 },
-    startTime: { type: Number, min: 8, max: 17 },
+    startTime: { type: Number, min: 0, max: 23 },
     duration: { type: Number, min: 1, max: 5 }
   },
   lecturer: {
@@ -37,7 +37,7 @@ const validate = course => {
     name: Joi.string().required().min(5).max(50),
     schedule: Joi.object({
       day: Joi.number().min(1).max(7),
-      startTime: Joi.number().min(8).max(17),
+      startTime: Joi.number().min(0).max(23),
       duration: Joi.number().min(1).max(5)
     }),
     lecturer: Joi.string()

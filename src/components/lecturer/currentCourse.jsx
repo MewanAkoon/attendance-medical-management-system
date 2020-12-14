@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { isActive } from '../common/isActive';
 
 class CurrentCourse extends Component {
-	state = { course: {}, password: '', url: '' };
+	state = { course: {}, active: false, password: '', url: '' };
 
 	async componentDidMount() {
 		try {
@@ -17,7 +18,11 @@ class CurrentCourse extends Component {
 				schedule: data.schedule
 			};
 
-			this.setState({ course });
+			const active = isActive(data.schedule);
+
+			const password = data.password ? data.password : '';
+
+			this.setState({ course, active, password });
 		} catch (err) {
 			console.error(err);
 		}
@@ -45,16 +50,17 @@ class CurrentCourse extends Component {
 	};
 
 	generateQR = () => {
+		const size = '1000x1000';
+		const baseURL = 'http://api.qrserver.com/v1/create-qr-code/';
+
 		if (!this.state.password) {
-			const size = '1000x1000';
 			const code = this.props.match.params.code;
-
 			const password = `${code}${this.getTime()}`;
-
-			const baseURL = 'http://api.qrserver.com/v1/create-qr-code/';
 			const url = `${baseURL}?data=${password}&size=${size}`;
-
 			this.setState({ url, password });
+		} else {
+			const url = `${baseURL}?data=${this.state.password}&size=${size}`;
+			this.setState({ url });
 		}
 	};
 
@@ -63,9 +69,14 @@ class CurrentCourse extends Component {
 			<React.Fragment>
 				<h1>{this.state.course.code}</h1>
 				<div>
-					<button className='btn btn-primary' onClick={this.generateQR}>
-						Generate QR
-					</button>
+					{this.state.active && (
+						<button
+							className='btn btn-primary'
+							disabled={this.state.url}
+							onClick={this.generateQR}>
+							Generate QR
+						</button>
+					)}
 					{this.state.url && (
 						<a
 							href={this.state.url}
