@@ -1,25 +1,11 @@
 import React from 'react';
 import getIcon from '../../../images';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { isActive } from '../../common/isActive';
 
-const getDayAndTime = () => {
-	const m = moment();
-	return { day: m.day(), time: m.hour() };
-};
-
-const isActive = schedule => {
-	let classes = 'text-success small';
-	const { day, time } = getDayAndTime();
-
-	const active =
-		schedule.day === day &&
-		time >= schedule.startTime &&
-		time < schedule.startTime + schedule.duration;
-
-	if (!active) classes += ' d-none';
-
-	return classes;
+const getClasses = schedule => {
+	const active = isActive(schedule);
+	return active ? ' text-success small ' : 'd-none';
 };
 
 const Course = ({ course }) => {
@@ -37,7 +23,7 @@ const Course = ({ course }) => {
 							</Link>
 						</p>
 						<p className='my-0'>{course.name}</p>
-						<span className={isActive(course.schedule)}>Active now</span>
+						<span className={getClasses(course.schedule)}>Active now</span>
 					</div>
 				</div>
 			</div>
