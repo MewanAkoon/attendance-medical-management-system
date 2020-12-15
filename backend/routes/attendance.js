@@ -16,6 +16,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:studentId/:courseId', async (req, res) => {
+  try {
+    const attendance = await Attendance
+      .findOne({ student: req.params.studentId, course: req.params.courseId })
+      .populate('course', 'schedule');
+    if (!attendance) return res.status(404).send(false);
+
+    const marked = isMarked(attendance);
+    res.send(marked);
+  } catch (err) {
+    res.status(400).send(false);
+  }
+});
+
 router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
@@ -30,5 +44,17 @@ router.post('/', async (req, res) => {
     res.status(400).send(err);
   }
 });
+
+const isMarked = attendance => {
+  const timestamp = moment(attendance.timestamp, 'YYYY:MM:DD HH:mm:ss');
+  const { schedule } = attendance.course;
+
+  const marked =
+    timestamp.day() === schedule.day &&
+    timestamp.hour() >= schedule.startTime &&
+    timestamp.hour() < schedule.startTime + schedule.duration;
+
+  return marked;
+}
 
 module.exports = router;

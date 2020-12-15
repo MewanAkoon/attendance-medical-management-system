@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { isActive } from '../common/isActive';
 import axios from 'axios';
 
 class CurrentCourse extends Component {
-	state = { course: {}, isActive: true, marked: false };
+	state = { course: {}, active: false, marked: false, password: '' };
 
 	async componentDidMount() {
 		try {
@@ -12,24 +13,37 @@ class CurrentCourse extends Component {
 			);
 
 			const course = {
-				_id: data._id,
+				id: data._id,
 				code: data.code,
-				name: data.name,
-				schedule: data.schedule,
-				password: data.password
+				name: data.name
 			};
 
-			this.setState({ course });
+			const active = isActive(data.schedule);
+			const marked = await this.isMarked(this.props.user.id, course.id);
+
+			this.setState({ course, active, password: data.password, marked });
 		} catch (err) {
 			console.error(err);
 		}
 	}
 
+	isMarked = async (student, course) => {
+		try {
+			const { data } = await axios.get(
+				`http://localhost:9000/api/attendance/${student}/${course}`
+			);
+			return data;
+		} catch (err) {
+			console.error(err.message);
+			return false;
+		}
+	};
+
 	markAttendance = async password => {
-		if (password === this.state.course.password && !this.state.marked) {
+		if (password === this.state.password && !this.state.marked) {
 			const obj = {
 				student: this.props.user.id,
-				course: this.state.course._id
+				course: this.state.course.id
 			};
 
 			try {
@@ -42,13 +56,15 @@ class CurrentCourse extends Component {
 	};
 
 	render() {
+		const { active, course, marked, password } = this.state;
+
 		return (
 			<React.Fragment>
-				<h1>{this.state.course.code}</h1>
-				{this.state.course.password && !this.state.marked && (
+				<h1>{course.code}</h1>
+				{active && password && !marked && (
 					<button
 						className='btn btn-primary'
-						onClick={() => this.markAttendance('CSC2233154955')}>
+						onClick={() => this.markAttendance(password)}>
 						Scan QR
 					</button>
 				)}
