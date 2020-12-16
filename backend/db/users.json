@@ -6,7 +6,7 @@
   "country": "Sri lanka",
   "role": "student",
   "password": "12345678",
-  "courses": ["CSC2233", "CSC2263", "CSC2272"]
+  "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213"]
 }, {
   "_id": "sc10264",
   "firstName": "SC/2017/10264",
@@ -15,7 +15,7 @@
   "country": "Sri lanka",
   "role": "student",
   "password": "12345678",
-  "courses": ["CSC2233", "CSC2252", "CSC2272"]
+  "courses": ["CSC2233", "CSC2252", "CSC2272", "CSC2213"]
 }, {
   "_id": "sc10262",
   "firstName": "SC/2017/10262",
