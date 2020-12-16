@@ -6,9 +6,10 @@ const { User, validate } = require('../models/user');
 
 router.get('/', async (req, res) => {
   try {
-    let users = await User.find();
+    let users = await User.find().sort('_id');
 
     if (req.query.role) users = users.filter(user => user.role === req.query.role);
+    if (req.query.code) users = users.filter(user => user.courses.includes(req.query.code));
 
     if (users.length === 0) return res.status(404).send('No users in the database...');
     res.send(users);

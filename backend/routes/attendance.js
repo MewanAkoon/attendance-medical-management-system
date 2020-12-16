@@ -3,6 +3,7 @@ const router = express.Router();
 const moment = require('moment');
 
 const { Attendance, validate } = require('../models/attendance');
+const { Course } = require('../models/course');
 
 router.get('/', async (req, res) => {
   try {
@@ -45,6 +46,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/:code', async (req, res) => {
+  try {
+    const { _id: course } = await Course.findOne({ code: req.params.code }).select('_id');
+
+    let attendances = await Attendance.find({ course })
+      .populate('course', 'code name')
+      .populate('student', 'firstName username');
+
+    const date = getDate(req.body.date);
+
+    attendances = attendances.filter(a => getDate(a.timestamp) === date);
+
+    if (attendances.length === 0) return res.status(404).send(attendances);
+    res.send(attendances);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 const isMarked = attendance => {
   const timestamp = moment(attendance.timestamp, 'YYYY:MM:DD HH:mm:ss');
   const { schedule } = attendance.course;
@@ -55,6 +75,10 @@ const isMarked = attendance => {
     timestamp.hour() < schedule.startTime + schedule.duration;
 
   return marked;
+}
+
+const getDate = date => {
+  return moment(date, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD');
 }
 
 module.exports = router;

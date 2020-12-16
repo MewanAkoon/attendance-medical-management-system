@@ -9,7 +9,7 @@ const Attendance = props => {
 		case 'student':
 			return <h1>Stu</h1>;
 		default:
-			return <Redirect to='/not-found' />;
+			return <Redirect to='/login' />;
 	}
 };
 
