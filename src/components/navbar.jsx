@@ -4,6 +4,7 @@ import { userLoggedOut } from '../store/login';
 import { useDispatch } from 'react-redux';
 import logo from '../images/logos/3.svg';
 import MedicalNav from './medical/navItem';
+import LecturerNav from './lecturer/navItem';
 
 const Navbar = props => {
 	const { id, firstName, username, role } = props;
@@ -25,6 +26,7 @@ const Navbar = props => {
 				{id && (
 					<NavDropdown title={<i className='fa fa-cog' />} id='dropdown-navbar'>
 						{role === 'medical' && <MedicalNav {...props} />}
+						{role === 'lecturer' && <LecturerNav {...props} />}
 
 						<NavDropdown.Item onClick={() => dispatch(userLoggedOut())}>
 							<i className='fa fa-sign-out mr-2' aria-hidden='true' />
