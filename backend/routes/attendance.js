@@ -65,6 +65,18 @@ router.post('/:code', async (req, res) => {
   }
 });
 
+router.post('/:studentId/:courseId', async (req, res) => {
+  try {
+    const attendance = await Attendance
+      .find({ student: req.params.studentId, course: req.params.courseId })
+      .select('timestamp -_id');
+    if (!attendance) return res.status(404).send(attendance);
+    res.send(attendance);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
 const isMarked = attendance => {
   const timestamp = moment(attendance.timestamp, 'YYYY:MM:DD HH:mm:ss');
   const { schedule } = attendance.course;

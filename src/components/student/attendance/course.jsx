@@ -1,7 +1,5 @@
-import axios from 'axios';
 import React, { Component } from 'react';
-import { Accordion, Card } from 'react-bootstrap';
-import Dates from './dates';
+import axios from 'axios';
 
 class Course extends Component {
 	state = { course: {} };
@@ -14,8 +12,7 @@ class Course extends Component {
 
 			const course = {
 				code: data.code,
-				name: data.name,
-				dates: data.dates
+				name: data.name
 			};
 
 			this.setState({ course });
@@ -25,23 +22,18 @@ class Course extends Component {
 	}
 
 	render() {
-		const { code, name, dates } = this.state.course;
+		const { code, name } = this.state.course;
+
 		return (
 			<React.Fragment>
-				<Accordion.Toggle
-					as={Card.Header}
-					className='text-center text-primary'
-					onClick={() => this.props.onCourseSelect(code)}
-					eventKey={code}>
-					{`${name} (${code})`}
-				</Accordion.Toggle>
-				{dates && dates.length > 0 && (
-					<Accordion.Collapse eventKey={code}>
-						<Card.Body className='p-1'>
-							<Dates onDateSelect={this.props.onDateSelect} dates={dates} />
-						</Card.Body>
-					</Accordion.Collapse>
-				)}
+				{code && name ? (
+					<button
+						className='btn btn-outline-primary'
+						style={{ height: 60 }}
+						onClick={() => this.props.onCourseSelect(code)}>
+						{`${name} (${code})`}
+					</button>
+				) : null}
 			</React.Fragment>
 		);
 	}

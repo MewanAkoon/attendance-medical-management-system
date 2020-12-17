@@ -8,7 +8,7 @@ const LecturerNav = () => {
 	return (
 		<React.Fragment>
 			<NavDropdown.Item onClick={() => history.push('/attendance')}>
-				<i className='fa fa-plus-square mr-2' aria-hidden='true' />
+				<i className='fa fa-industry mr-2' aria-hidden='true' />
 				View Attendance
 			</NavDropdown.Item>
 			<hr className='my-1 mx-2' />

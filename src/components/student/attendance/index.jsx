@@ -1,55 +1,62 @@
 import React, { Component } from 'react';
-import { Accordion, Card } from 'react-bootstrap';
 import Course from './course';
 import AttendanceTable from './table';
+import axios from 'axios';
+import moment from 'moment';
 
-class AttendanceLec extends Component {
-	state = { currentCourse: '', date: '' };
+class AttendanceStu extends Component {
+	state = { currentCourse: '', course: {}, presentDates: [] };
 
-	handleCourseSelect = course => {
-		this.setState({ currentCourse: course, date: '' });
-	};
+	handleCourseSelect = async code => {
+		try {
+			const { data } = await axios.get(
+				`http://localhost:9000/api/courses/${code}`
+			);
 
-	handleDateSelect = date => {
-		this.setState({ date });
+			const course = {
+				id: data._id,
+				code: data.code,
+				dates: data.dates
+			};
+
+			const { data: dates } = await axios.post(
+				`http://localhost:9000/api/attendance/${this.props.user.id}/${course.id}`
+			);
+
+			const presentDates =
+				dates && dates.length > 0
+					? dates.map(d =>
+							moment(d.timestamp, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD')
+					  )
+					: [];
+
+			this.setState({ currentCourse: code, course, presentDates });
+		} catch (err) {
+			console.error(err.message);
+		}
 	};
 
 	renderList(courses) {
 		return (
-			<Accordion>
+			<div className='btn-group-vertical btn-group-sm w-100 text-center'>
 				{courses.map(c => (
-					<Card key={c} style={{ cursor: 'pointer' }}>
-						<Course
-							onCourseSelect={this.handleCourseSelect}
-							onDateSelect={this.handleDateSelect}
-							course={c}
-						/>
-					</Card>
+					<Course key={c} onCourseSelect={this.handleCourseSelect} course={c} />
 				))}
-			</Accordion>
+			</div>
 		);
 	}
 
 	renderAlert = () => {
-		const { currentCourse, date } = this.state;
 		return (
 			<div className='alert alert-secondary text-center'>
-				{!(currentCourse && date) ? (
-					<small>Select a course and a date</small>
-				) : (
-					<small>Select a date</small>
-				)}
+				<small>Select a course</small>
 			</div>
 		);
 	};
 
-	renderAttendance = (course, date) => {
-		return <AttendanceTable code={course} date={date} />;
-	};
-
 	render() {
 		const { courses } = this.props.user;
-		const { currentCourse, date } = this.state;
+		const { course, presentDates } = this.state;
 
 		return (
 			<React.Fragment>
@@ -57,10 +64,11 @@ class AttendanceLec extends Component {
 				<div className='row'>
 					<div className='col-3'>{this.renderList(courses)}</div>
 					<div className='col'>
-						{!(currentCourse && date) && this.renderAlert()}
-						{currentCourse &&
-							date &&
-							this.renderAttendance(currentCourse, date)}
+						{course.code ? (
+							<AttendanceTable course={course} dates={presentDates} />
+						) : (
+							this.renderAlert()
+						)}
 					</div>
 				</div>
 			</React.Fragment>
@@ -68,4 +76,4 @@ class AttendanceLec extends Component {
 	}
 }
 
-export default AttendanceLec;
+export default AttendanceStu;

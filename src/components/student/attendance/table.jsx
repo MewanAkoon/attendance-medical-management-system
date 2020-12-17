@@ -1,77 +1,104 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-// import moment from 'moment';
+import React from 'react';
+import moment from 'moment';
+import ReactTooltip from 'react-tooltip';
+import { ProgressBar } from 'react-bootstrap';
 
-class AttendanceTable extends Component {
-	state = { present: [], total: [], students: [] };
+const getFullDate = date => {
+	return moment(date, 'YYYY:MM:DD HH:mm:ss').format(
+		'dddd, MMMM Do YYYY, h:mm:ss a'
+	);
+};
 
-	async componentDidMount() {
-		const { code, date } = this.props;
+const getDate = date => {
+	return moment(date, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD');
+};
 
-		try {
-			const { data: total } = await axios.get(
-				`http://localhost:9000/api/users?role=student&code=${code}`
-			);
+// const getTime = date => {
+// 	return moment(date, 'YYYY:MM:DD HH:mm:ss').format('hh:mm a');
+// };
 
-			const { data: present } = await axios.post(
-				`http://localhost:9000/api/attendance/${code}`,
-				{
-					date
-				}
-			);
+const isPresent = (date, presentDates) => {
+	return presentDates.includes(getDate(date));
+};
 
-			const students = present.map(p => p.student._id);
+const renderAlert = () => {
+	return (
+		<div className='alert alert-secondary text-center'>
+			<small>No existing records available</small>
+		</div>
+	);
+};
 
-			this.setState({ present, total, students });
-		} catch (err) {
-			console.error(err.message);
-		}
-	}
+const renderData = (present, total) => {
+	const average = (present / total) * 100;
 
-	isPresent = student => {
-		return this.state.students.includes(student);
-	};
+	return (
+		<div className='alert alert-primary'>
+			<small>
+				Total Present: {present}/{total}
+			</small>
+			{average > 0 && renderProgressBar(average)}
+		</div>
+	);
+};
 
-	// getTime = data => moment(data, 'YYYY:MM:DD HH:mm:ss').format('hh:mm:ss');
+const renderProgressBar = average => {
+	const variant = average >= 80 ? 'success' : 'danger';
+	return average > 0 ? (
+		<ProgressBar
+			style={{ height: 15, fontSize: 12 }}
+			className='mt-1'
+			variant={variant}
+			now={average}
+			label={`${average}%`}
+		/>
+	) : null;
+};
 
-	render() {
-		const { present, total: records } = this.state;
+const AttendanceTable = ({ course, dates }) => {
+	const { dates: records } = course;
 
-		return (
-			<div className='jumbotron pt-4'>
-				<div className='alert alert-primary'>
-					<small>
-						Total Present: {present.length}/{records.length}
-					</small>
-				</div>
+	return (
+		<div>
+			{records && records.length > 0 ? (
+				<div className='jumbotron pt-4'>
+					{renderData(dates.length, records.length)}
 
-				<table className='table table-hover table-sm'>
-					<thead className='thead-dark'>
-						<tr>
-							<th>Index</th>
-							<th>Name</th>
-							<th>Status</th>
-						</tr>
-					</thead>
-					<tbody>
-						{records.map(r => (
-							<tr key={r._id}>
-								<td>{r.firstName}</td>
-								<td>{r.username}</td>
-								<td>
-									{this.isPresent(r._id) ? (
-										<i className='fa fa-check-square-o' aria-hidden='true'></i>
-									) : (
-										<i className='fa fa-square-o' aria-hidden='true'></i>
-									)}
-								</td>
+					<table className='table table-hover table-sm'>
+						<thead className='thead-dark'>
+							<tr>
+								<th>Day</th>
+								<th>Lecture</th>
+								<th>Status</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-		);
-	}
-}
+						</thead>
+						<tbody style={{ cursor: 'pointer' }}>
+							{records.map(r => (
+								<tr key={r} data-tip data-for={r}>
+									<td>{getDate(r)}</td>
+									<td>Lecture name comes here</td>
+									<td>
+										{isPresent(r, dates) ? (
+											<i
+												className='fa fa-check-square-o'
+												aria-hidden='true'></i>
+										) : (
+											<i className='fa fa-square-o' aria-hidden='true'></i>
+										)}
+									</td>
+									<ReactTooltip id={r} type='light' effect='solid'>
+										{getFullDate(r)}
+									</ReactTooltip>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			) : (
+				renderAlert()
+			)}
+		</div>
+	);
+};
 
 export default AttendanceTable;
