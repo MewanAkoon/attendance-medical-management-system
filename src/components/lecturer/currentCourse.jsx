@@ -64,19 +64,50 @@ class CurrentCourse extends Component {
 		}
 	};
 
+	getHeader = () => {
+		const { code, name } = this.state.course;
+
+		return (
+			<h1 className='display-4 text-dark'>
+				{code} - {name}
+			</h1>
+		);
+	};
+
+	renderForm = () => {
+		return (
+			<form className='form-inline px-2 justify-content-center'>
+				<div className='input-group w-50'>
+					<div className='input-group-prepend'>
+						<div className='input-group-text'>
+							<i className='fa fa-clone' aria-hidden='true' />
+						</div>
+					</div>
+					<input
+						type='text'
+						className='form-control'
+						name='lecture'
+						placeholder='Lecture Title'
+					/>
+				</div>
+
+				<button
+					type='submit'
+					className='btn btn-primary ml-1'
+					disabled={this.state.url}
+					onClick={this.generateQR}>
+					Generate QR
+				</button>
+			</form>
+		);
+	};
+
 	render() {
 		return (
-			<React.Fragment>
-				<h1>{this.state.course.code}</h1>
-				<div>
-					{this.state.active && (
-						<button
-							className='btn btn-primary'
-							disabled={this.state.url}
-							onClick={this.generateQR}>
-							Generate QR
-						</button>
-					)}
+			<div className='jumbotron p-2 py-4 text-center'>
+				{this.getHeader()}
+				<div className='mt-4'>
+					{this.state.active && this.renderForm()}
 					{this.state.url && (
 						<a
 							href={this.state.url}
@@ -87,7 +118,7 @@ class CurrentCourse extends Component {
 						</a>
 					)}
 				</div>
-			</React.Fragment>
+			</div>
 		);
 	}
 }
