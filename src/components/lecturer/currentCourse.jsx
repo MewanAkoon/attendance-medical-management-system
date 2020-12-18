@@ -1,9 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
+import Joi from 'joi';
+import Form from '../common/form';
 import { isActive } from '../common/isActive';
 
-class CurrentCourse extends Component {
-	state = { course: {}, active: false, password: '', url: '' };
+class CurrentCourse extends Form {
+	state = {
+		course: {},
+		active: false,
+		password: '',
+		url: '',
+		data: { lecture: '' },
+		errors: { lecture: '' }
+	};
+
+	schema = Joi.object({
+		lecture: Joi.string().required().min(5).max(50).label('Lecture Title')
+	});
 
 	async componentDidMount() {
 		try {
@@ -23,6 +36,7 @@ class CurrentCourse extends Component {
 			const password = data.password ? data.password : '';
 
 			this.setState({ course, active, password });
+			if (password) this.generateQR();
 		} catch (err) {
 			console.error(err);
 		}
@@ -31,12 +45,14 @@ class CurrentCourse extends Component {
 	async componentDidUpdate(prevProps, prevState) {
 		if (
 			prevState !== this.state &&
-			prevState.password !== this.state.password
+			prevState.password !== this.state.password &&
+			this.state.url
 		) {
 			try {
-				const { course, password } = this.state;
+				const { course, password, data } = this.state;
 				await axios.patch(
-					`http://localhost:9000/api/courses/${course.code}/${password}`
+					`http://localhost:9000/api/courses/${course.code}/${password}`,
+					{ lecture: data.lecture }
 				);
 			} catch (err) {
 				console.error(err);
@@ -75,6 +91,8 @@ class CurrentCourse extends Component {
 	};
 
 	renderForm = () => {
+		const { active, password, data } = this.state;
+
 		return (
 			<form className='form-inline px-2 justify-content-center'>
 				<div className='input-group w-50'>
@@ -86,20 +104,29 @@ class CurrentCourse extends Component {
 					<input
 						type='text'
 						className='form-control'
+						disabled={active && password}
+						value={data.lecture}
 						name='lecture'
 						placeholder='Lecture Title'
+						onChange={this.handleChange}
+						autoFocus
 					/>
 				</div>
 
 				<button
 					type='submit'
 					className='btn btn-primary ml-1'
-					disabled={this.state.url}
-					onClick={this.generateQR}>
+					disabled={this.state.errors.lecture || !this.state.data.lecture}
+					onClick={this.handleSubmit}>
 					Generate QR
 				</button>
 			</form>
 		);
+	};
+
+	doSubmit = () => {
+		this.generateQR();
+		this.setState({ data: { lecture: '' }, errors: { lecture: '' } });
 	};
 
 	render() {
@@ -107,7 +134,7 @@ class CurrentCourse extends Component {
 			<div className='jumbotron p-2 py-4 text-center'>
 				{this.getHeader()}
 				<div className='mt-4'>
-					{this.state.active && this.renderForm()}
+					{this.renderForm()}
 					{this.state.url && (
 						<a
 							href={this.state.url}
