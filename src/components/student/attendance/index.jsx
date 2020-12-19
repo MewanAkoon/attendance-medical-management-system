@@ -3,6 +3,7 @@ import Course from './course';
 import AttendanceTable from './table';
 import axios from 'axios';
 import moment from 'moment';
+import { Breadcrumb } from 'react-bootstrap';
 
 class AttendanceStu extends Component {
 	state = { currentCourse: '', course: {}, presentDates: [] };
@@ -54,13 +55,25 @@ class AttendanceStu extends Component {
 		);
 	};
 
+	renderBreadCrumbs = () => {
+		return (
+			<Breadcrumb>
+				<Breadcrumb.Item href='/home'>Home</Breadcrumb.Item>
+				<Breadcrumb.Item active>Attendance</Breadcrumb.Item>
+			</Breadcrumb>
+		);
+	};
+
 	render() {
 		const { courses } = this.props.user;
 		const { course, presentDates } = this.state;
 
 		return (
 			<React.Fragment>
-				<div className='text-center display-4 mb-4'>Attendance Report</div>
+				{this.renderBreadCrumbs()}
+				<div className='jumbotron p-1 py-2 my-0 mb-3 text-center display-4 text-dark'>
+					Attendance Report
+				</div>
 				<div className='row'>
 					<div className='col-3'>{this.renderList(courses)}</div>
 					<div className='col'>

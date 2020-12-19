@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Loading from '../../common/loading';
 import Course from './course';
+import { Breadcrumb } from 'react-bootstrap';
 
 class Courses extends Component {
 	state = {
@@ -25,18 +26,29 @@ class Courses extends Component {
 		this.setState({ courses, loading: false });
 	}
 
+	renderBreadCrumbs = () => {
+		return (
+			<Breadcrumb>
+				<Breadcrumb.Item active>Home</Breadcrumb.Item>
+			</Breadcrumb>
+		);
+	};
+
 	render() {
 		const { courses, loading } = this.state;
 		return loading ? (
 			<Loading />
 		) : (
 			courses.length > 0 && (
-				<div className='card'>
-					<div className='card-header'>Course Overview</div>
-					<div className='card-body'>
-						{courses.map(c => (
-							<Course key={c.code} course={c} />
-						))}
+				<div>
+					{this.renderBreadCrumbs()}
+					<div className='card'>
+						<div className='card-header'>Course Overview</div>
+						<div className='card-body'>
+							{courses.map(c => (
+								<Course key={c.code} course={c} />
+							))}
+						</div>
 					</div>
 				</div>
 			)

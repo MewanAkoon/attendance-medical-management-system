@@ -3,6 +3,7 @@ import axios from 'axios';
 import Joi from 'joi';
 import Form from '../common/form';
 import { isActive } from '../common/isActive';
+import { Breadcrumb } from 'react-bootstrap';
 
 class CurrentCourse extends Form {
 	state = {
@@ -92,6 +93,15 @@ class CurrentCourse extends Form {
 		);
 	};
 
+	renderBreadCrumbs = () => {
+		return (
+			<Breadcrumb>
+				<Breadcrumb.Item href='/home'>Home</Breadcrumb.Item>
+				<Breadcrumb.Item active>{this.state.course.code}</Breadcrumb.Item>
+			</Breadcrumb>
+		);
+	};
+
 	renderForm = () => {
 		const { active, password, data } = this.state;
 
@@ -106,7 +116,7 @@ class CurrentCourse extends Form {
 					<input
 						type='text'
 						className='form-control'
-						disabled={active && password}
+						disabled={!active || password}
 						value={data.lecture}
 						name='lecture'
 						placeholder='Lecture Title'
@@ -133,21 +143,24 @@ class CurrentCourse extends Form {
 
 	render() {
 		return (
-			<div className='jumbotron p-2 py-4 text-center'>
-				{this.getHeader()}
-				<div className='mt-4'>
-					{this.renderForm()}
-					{this.state.url && (
-						<a
-							href={this.state.url}
-							className='qrbox mt-2'
-							target='_blank'
-							rel='noreferrer'>
-							<img src={this.state.url} className='w-100' alt='qr-code' />
-						</a>
-					)}
+			<React.Fragment>
+				{this.renderBreadCrumbs()}
+				<div className='jumbotron p-2 py-4 text-center'>
+					{this.getHeader()}
+					<div className='mt-4'>
+						{this.renderForm()}
+						{this.state.url && (
+							<a
+								href={this.state.url}
+								className='qrbox mt-2'
+								target='_blank'
+								rel='noreferrer'>
+								<img src={this.state.url} className='w-100' alt='qr-code' />
+							</a>
+						)}
+					</div>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Accordion, Card } from 'react-bootstrap';
+import { Accordion, Breadcrumb, Card } from 'react-bootstrap';
 import Course from './course';
 import AttendanceTable from './table';
 
@@ -54,13 +54,25 @@ class AttendanceLec extends Component {
 		return <AttendanceTable code={course} date={date} />;
 	};
 
+	renderBreadCrumbs = () => {
+		return (
+			<Breadcrumb>
+				<Breadcrumb.Item href='/home'>Home</Breadcrumb.Item>
+				<Breadcrumb.Item active>Attendance</Breadcrumb.Item>
+			</Breadcrumb>
+		);
+	};
+
 	render() {
 		const { courses } = this.props.user;
 		const { currentCourse, date } = this.state;
 
 		return (
 			<React.Fragment>
-				<div className='text-center display-4 mb-4'>Attendance Report</div>
+				{this.renderBreadCrumbs()}
+				<div className='jumbotron p-1 py-2 my-0 mb-3 text-center display-4 text-dark'>
+					Attendance Report
+				</div>
 				<div className='row'>
 					<div className='col-3'>{this.renderList(courses, date)}</div>
 					<div className='col'>

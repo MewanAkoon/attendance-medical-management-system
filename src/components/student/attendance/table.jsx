@@ -3,6 +3,14 @@ import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import renderData from '../../common/progressBar';
 
+let index = 1;
+
+const getIndex = () => {
+	const number = index.toString();
+	index++;
+	return number.length === 1 ? '0' + number : number;
+};
+
 const getFullDate = date => {
 	return moment(date, 'YYYY:MM:DD HH:mm:ss').format('dddd, MMMM Do YYYY');
 };
@@ -44,7 +52,9 @@ const AttendanceTable = ({ course, dates }) => {
 							{records.map(r => (
 								<tr key={r._id} data-tip data-for={r._id}>
 									<td>{getDate(r.date)}</td>
-									<td>{r.lecture}</td>
+									<td>
+										{getIndex()}. {r.lecture}
+									</td>
 									<td>
 										{isPresent(r.date, dates) ? (
 											<i
