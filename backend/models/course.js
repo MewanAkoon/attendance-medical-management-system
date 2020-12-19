@@ -14,7 +14,7 @@ const schema = new mongoose.Schema({
     maxlength: 50
   },
   schedule: {
-    day: { type: Number, min: 1, max: 7 },
+    day: { type: Number, min: 0, max: 6 },
     startTime: { type: Number, min: 0, max: 23 },
     duration: { type: Number, min: 1, max: 5 }
   },

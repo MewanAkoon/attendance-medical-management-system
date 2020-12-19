@@ -33,6 +33,7 @@ const renderAlert = () => {
 
 const AttendanceTable = ({ course, dates }) => {
 	const { dates: records } = course;
+	index = 1;
 
 	return (
 		<div>

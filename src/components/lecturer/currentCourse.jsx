@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import Joi from 'joi';
+import moment from 'moment';
+import Loading from '../common/loading';
 import Form from '../common/form';
 import { isActive } from '../common/isActive';
 import { Breadcrumb } from 'react-bootstrap';
@@ -11,6 +13,8 @@ class CurrentCourse extends Form {
 		active: false,
 		password: '',
 		url: '',
+		qrGenerated: false,
+		loading: true,
 		data: { lecture: '' },
 		errors: { lecture: '' }
 	};
@@ -29,14 +33,17 @@ class CurrentCourse extends Form {
 			const course = {
 				code: data.code,
 				name: data.name,
-				schedule: data.schedule
+				schedule: data.schedule,
+				dates: data.dates
 			};
 
 			const active = isActive(data.schedule);
 
 			const password = data.password ? data.password : '';
 
-			this.setState({ course, active, password });
+			const qrGenerated = this.isQRGenerated(data.schedule, data.dates);
+
+			this.setState({ course, active, password, qrGenerated, loading: false });
 			if (password) this.generateQR();
 		} catch (err) {
 			console.error(err);
@@ -62,6 +69,19 @@ class CurrentCourse extends Form {
 			}
 		}
 	}
+
+	isQRGenerated = (schedule, dates) => {
+		const item = dates.filter(d => {
+			const timestamp = moment(d.date, 'YYYY:MM:DD HH:mm:ss');
+			return (
+				timestamp.day() === schedule.day &&
+				timestamp.hour() >= schedule.startTime &&
+				timestamp.hour() < schedule.startTime + schedule.duration
+			);
+		});
+
+		return item && item.length === 1;
+	};
 
 	getTime = () => {
 		const date = new Date();
@@ -103,7 +123,7 @@ class CurrentCourse extends Form {
 	};
 
 	renderForm = () => {
-		const { active, password, data } = this.state;
+		const { active, password, data, qrGenerated } = this.state;
 
 		return (
 			<form className='form-inline px-2 justify-content-center'>
@@ -116,7 +136,7 @@ class CurrentCourse extends Form {
 					<input
 						type='text'
 						className='form-control'
-						disabled={!active || password}
+						disabled={!active || password || qrGenerated}
 						value={data.lecture}
 						name='lecture'
 						placeholder='Lecture Title'
@@ -142,7 +162,9 @@ class CurrentCourse extends Form {
 	};
 
 	render() {
-		return (
+		return this.state.loading ? (
+			<Loading />
+		) : (
 			<React.Fragment>
 				{this.renderBreadCrumbs()}
 				<div className='jumbotron p-2 py-4 text-center'>

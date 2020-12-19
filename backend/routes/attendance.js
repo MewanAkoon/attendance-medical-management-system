@@ -72,12 +72,13 @@ router.post('/:code', async (req, res) => {
   }
 });
 
-// Get all records given student id and course id
+// Get all attendance records given student id and course id
 router.post('/:studentId/:courseId', async (req, res) => {
   try {
     const attendance = await Attendance
       .find({ student: req.params.studentId, course: req.params.courseId })
       .select('timestamp -_id');
+    console.log(attendance);
     if (!attendance) return res.status(404).send(attendance);
     res.send(attendance);
   } catch (err) {
