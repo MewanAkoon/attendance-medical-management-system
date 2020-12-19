@@ -7,14 +7,20 @@ class AttendanceLec extends Component {
 	state = { currentCourse: '', date: '' };
 
 	handleCourseSelect = course => {
-		this.setState({ currentCourse: course, date: '' });
+		this.setState({ currentCourse: course });
 	};
 
 	handleDateSelect = date => {
 		this.setState({ date });
 	};
 
-	renderList(courses) {
+	componentDidUpdate(prevProps, prevState) {
+		const { currentCourse } = this.state;
+		if (prevState !== this.state && prevState.currentCourse !== currentCourse)
+			this.setState({ date: '' });
+	}
+
+	renderList(courses, date) {
 		return (
 			<Accordion>
 				{courses.map(c => (
@@ -23,6 +29,7 @@ class AttendanceLec extends Component {
 							onCourseSelect={this.handleCourseSelect}
 							onDateSelect={this.handleDateSelect}
 							course={c}
+							selectedDate={date}
 						/>
 					</Card>
 				))}
@@ -55,7 +62,7 @@ class AttendanceLec extends Component {
 			<React.Fragment>
 				<div className='text-center display-4 mb-4'>Attendance Report</div>
 				<div className='row'>
-					<div className='col-3'>{this.renderList(courses)}</div>
+					<div className='col-3'>{this.renderList(courses, date)}</div>
 					<div className='col'>
 						{!(currentCourse && date) && this.renderAlert()}
 						{currentCourse &&

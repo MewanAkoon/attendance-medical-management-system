@@ -5,6 +5,7 @@ const moment = require('moment');
 const { Attendance, validate } = require('../models/attendance');
 const { Course } = require('../models/course');
 
+// Get all attendance records
 router.get('/', async (req, res) => {
   try {
     const attendances = await Attendance.find()
@@ -17,20 +18,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Not sure what this does
 router.get('/:studentId/:courseId', async (req, res) => {
   try {
-    const attendance = await Attendance
-      .findOne({ student: req.params.studentId, course: req.params.courseId })
+    let attendance = await Attendance
+      .find({ student: req.params.studentId, course: req.params.courseId })
       .populate('course', 'schedule');
     if (!attendance) return res.status(404).send(false);
 
-    const marked = isMarked(attendance);
+    attendance = attendance.filter(a => isMarked(a));
+    const marked = attendance && attendance.length === 1 ? true : false;
     res.send(marked);
   } catch (err) {
     res.status(400).send(false);
   }
 });
 
+// Adds an attendance record to the database
+// student id and course id passed via body
 router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
@@ -46,6 +51,8 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Get attendance records of a course for a given date
+// date is passed via body
 router.post('/:code', async (req, res) => {
   try {
     const { _id: course } = await Course.findOne({ code: req.params.code }).select('_id');
@@ -65,6 +72,7 @@ router.post('/:code', async (req, res) => {
   }
 });
 
+// Get all records given student id and course id
 router.post('/:studentId/:courseId', async (req, res) => {
   try {
     const attendance = await Attendance

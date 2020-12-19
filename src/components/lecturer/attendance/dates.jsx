@@ -1,11 +1,16 @@
 import React from 'react';
 import Date from './date';
 
-const Dates = ({ dates, onDateSelect }) => {
+const Dates = ({ dates, selectedDate, onDateSelect }) => {
 	return (
-		<div className='btn-group-vertical btn-group-sm w-100 text-center'>
+		<div className='list-group list-group-flush text-center'>
 			{dates.map(d => (
-				<Date onDateSelect={onDateSelect} key={d} date={d} />
+				<Date
+					selectedDate={selectedDate}
+					onDateSelect={onDateSelect}
+					key={d._id}
+					date={d.date}
+				/>
 			))}
 		</div>
 	);

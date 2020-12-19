@@ -26,7 +26,10 @@ const schema = new mongoose.Schema({
     type: String,
     minlength: 10
   },
-  dates: [String]
+  dates: [{
+    date: String,
+    lecture: String
+  }]
 });
 
 const Course = mongoose.model('Course', schema);
@@ -40,17 +43,18 @@ const validate = course => {
       startTime: Joi.number().min(0).max(23),
       duration: Joi.number().min(1).max(5)
     }),
-    lecturer: Joi.string()
+    lecturer: Joi.string(),
   });
 
   return schema.validate(course);
 };
 
-const validatePassword = password => {
+const validatePasswordAndLecture = course => {
   const schema = Joi.object({
-    password: Joi.string().min(7).max(13).required()
+    password: Joi.string().min(7).max(13).required(),
+    lecture: Joi.string().min(5).max(50).required()
   });
-  return schema.validate(password);
+  return schema.validate(course);
 };
 
-module.exports = { Course, validate, validatePassword };
+module.exports = { Course, validate, validatePasswordAndLecture };

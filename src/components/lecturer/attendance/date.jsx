@@ -5,13 +5,16 @@ const getDate = date => {
 	return moment(date, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD');
 };
 
-const Date = ({ date, onDateSelect }) => {
+const getClasses = (date, selectedDate) =>
+	date === selectedDate ? 'list-group-item active' : 'list-group-item';
+
+const Date = ({ date, selectedDate, onDateSelect }) => {
 	return (
-		<button
+		<small
 			onClick={() => onDateSelect(date)}
-			className='btn btn-outline-secondary'>
+			className={getClasses(date, selectedDate)}>
 			{getDate(date)}
-		</button>
+		</small>
 	);
 };
 

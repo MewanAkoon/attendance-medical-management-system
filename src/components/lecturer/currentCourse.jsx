@@ -43,17 +43,19 @@ class CurrentCourse extends Form {
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
+		const { course, password, data, url } = this.state;
 		if (
 			prevState !== this.state &&
-			prevState.password !== this.state.password &&
-			this.state.url
+			prevState.password !== password &&
+			url &&
+			data.lecture
 		) {
 			try {
-				const { course, password, data } = this.state;
 				await axios.patch(
 					`http://localhost:9000/api/courses/${course.code}/${password}`,
 					{ lecture: data.lecture }
 				);
+				this.setState({ data: { lecture: '' }, errors: { lecture: '' } });
 			} catch (err) {
 				console.error(err);
 			}
@@ -111,22 +113,22 @@ class CurrentCourse extends Form {
 						onChange={this.handleChange}
 						autoFocus
 					/>
+					<div className='input-group-append'>
+						<button
+							type='submit'
+							className='btn btn-primary ml-1'
+							disabled={this.state.errors.lecture || !this.state.data.lecture}
+							onClick={this.handleSubmit}>
+							Generate QR
+						</button>
+					</div>
 				</div>
-
-				<button
-					type='submit'
-					className='btn btn-primary ml-1'
-					disabled={this.state.errors.lecture || !this.state.data.lecture}
-					onClick={this.handleSubmit}>
-					Generate QR
-				</button>
 			</form>
 		);
 	};
 
 	doSubmit = () => {
 		this.generateQR();
-		this.setState({ data: { lecture: '' }, errors: { lecture: '' } });
 	};
 
 	render() {

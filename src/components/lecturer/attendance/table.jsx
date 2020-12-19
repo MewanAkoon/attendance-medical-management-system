@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import moment from 'moment';
+import renderData from '../../common/progressBar';
 
 class AttendanceTable extends Component {
-	state = { present: [], total: [], students: [] };
+	state = { present: [], total: [], students: [], lecture: '' };
 
 	async componentDidMount() {
 		const { code, date } = this.props;
 
 		try {
+			const { data: course } = await axios.get(
+				`http://localhost:9000/api/courses/${code}`
+			);
+
 			const { data: total } = await axios.get(
 				`http://localhost:9000/api/users?role=student&code=${code}`
 			);
@@ -20,9 +24,12 @@ class AttendanceTable extends Component {
 				}
 			);
 
+			// lecture name for the current date
+			const lecture = course.dates.filter(d => d.date === date)[0].lecture;
+
 			const students = present.map(p => p.student._id);
 
-			this.setState({ present, total, students });
+			this.setState({ present, total, students, lecture });
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -32,18 +39,22 @@ class AttendanceTable extends Component {
 		return this.state.students.includes(student);
 	};
 
-	// getTime = data => moment(data, 'YYYY:MM:DD HH:mm:ss').format('hh:mm:ss');
+	renderLectureDetails = () => {
+		return (
+			<p className='lead text-dark' style={{ cursor: 'default' }}>
+				<i className='fa fa-pencil-square-o mr-2' aria-hidden='true' />
+				{this.state.lecture}
+			</p>
+		);
+	};
 
 	render() {
 		const { present, total: records } = this.state;
 
 		return (
-			<div className='jumbotron pt-4'>
-				<div className='alert alert-primary'>
-					<small>
-						Total Present: {present.length}/{records.length}
-					</small>
-				</div>
+			<div className='jumbotron py-4'>
+				{renderData(present.length, records.length)}
+				{this.renderLectureDetails()}
 
 				<table className='table table-hover table-sm'>
 					<thead className='thead-dark'>

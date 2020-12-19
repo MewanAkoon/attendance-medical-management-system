@@ -37,8 +37,12 @@ class Course extends Component {
 				</Accordion.Toggle>
 				{dates && dates.length > 0 && (
 					<Accordion.Collapse eventKey={code}>
-						<Card.Body className='p-1'>
-							<Dates onDateSelect={this.props.onDateSelect} dates={dates} />
+						<Card.Body className='p-0'>
+							<Dates
+								onDateSelect={this.props.onDateSelect}
+								selectedDate={this.props.selectedDate}
+								dates={dates}
+							/>
 						</Card.Body>
 					</Accordion.Collapse>
 				)}

@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 
-const { Course, validate, validatePassword } = require('../models/course');
+const { Course, validate, validatePasswordAndLecture } = require('../models/course');
 
+// Get all the courses
 router.get('/', async (req, res) => {
   try {
     const courses = await Course.find().populate('lecturer', { firstName: 1, username: 1 });
@@ -14,6 +15,8 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a specfied course
+// Course code is passed via parameters
 router.get('/:code', async (req, res) => {
   try {
     const course = await Course.findOne({ code: req.params.code }).populate('lecturer', { firstName: 1, username: 1 });
@@ -24,6 +27,8 @@ router.get('/:code', async (req, res) => {
   }
 });
 
+// Add a course to the database
+// Required: code, name
 router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
@@ -37,8 +42,13 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Adds a temporary password.
+// Adds the current date and lecture name
+// Lecture name is passed via body
 router.patch('/:code/:password', async (req, res) => {
-  const { error } = validatePassword({ password: req.params.password });
+  console.log(req.body);
+  const { error } = validatePasswordAndLecture(
+    { password: req.params.password, lecture: req.body.lecture });
   if (error) return res.status(404).send(error.details[0].message);
 
   const timestamp = moment().format('YYYY:MM:DD HH:mm:ss');
@@ -46,7 +56,12 @@ router.patch('/:code/:password', async (req, res) => {
   try {
     let course = await Course.findOne({ code: req.params.code });
     course.password = req.params.password;
-    course.dates.push(timestamp);
+
+    const dateItem = {
+      date: timestamp,
+      lecture: req.body.lecture
+    }
+    course.dates.push(dateItem);
 
     course = await course.save();
     res.send(course);
