@@ -13,12 +13,13 @@
 
 .icon-badge {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  top: 18%;
-  right: 20%;
+  width: 15px;
+  height: 15px;
+  top: 15%;
+  right: 2%;
   color: white;
-  font-size: small;
+  font-size: 10px;
+  font-weight: bold;
   background-color: red;
   display: flex;
   justify-content: center;
