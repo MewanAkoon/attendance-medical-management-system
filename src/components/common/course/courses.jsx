@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Loading from '../../common/loading';
 import Course from './course';
+import { baseURL } from '../../../baseURL';
 import { Breadcrumb } from 'react-bootstrap';
 
 class Courses extends Component {
@@ -18,7 +19,7 @@ class Courses extends Component {
 		if (userCourses)
 			for (let i = 0; i < userCourses.length; i++) {
 				const { data } = await axios.get(
-					`http://localhost:9000/api/courses/${userCourses[i]}`
+					`${baseURL}/courses/${userCourses[i]}`
 				);
 				courses.push(data);
 			}

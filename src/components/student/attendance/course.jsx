@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { baseURL } from '../../../baseURL';
 import axios from 'axios';
 
 class Course extends Component {
@@ -7,7 +8,7 @@ class Course extends Component {
 	async componentDidMount() {
 		try {
 			const { data } = await axios.get(
-				`http://localhost:9000/api/courses/${this.props.course}`
+				`${baseURL}/courses/${this.props.course}`
 			);
 
 			const course = {
@@ -29,7 +30,7 @@ class Course extends Component {
 				{code && name ? (
 					<button
 						className='btn btn-outline-primary'
-						style={{ height: 60 }}
+						style={{ minHeight: 60 }}
 						onClick={() => this.props.onCourseSelect(code)}>
 						{`${name} (${code})`}
 					</button>

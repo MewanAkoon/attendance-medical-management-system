@@ -2,6 +2,7 @@ import React from 'react';
 import Form from '../common/form';
 import Joi from 'joi';
 import axios from 'axios';
+import { baseURL } from '../../baseURL';
 import { Dropdown } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -49,7 +50,7 @@ class MedicalForm extends Form {
 	getUser = async index => {
 		try {
 			const { data: user } = await axios.get(
-				`http://localhost:9000/api/users/${index}?role=student`
+				`${baseURL}/users/${index}?role=student`
 			);
 
 			const { firstName, username } = user;
@@ -83,7 +84,7 @@ class MedicalForm extends Form {
 		const { index, reason } = this.state.data;
 
 		try {
-			await axios.post('http://localhost:9000/api/medicals', { index, reason });
+			await axios.post(`${baseURL}/medicals`, { index, reason });
 			toast.success('Medical Submitted.');
 			this.setState({ data: { index: '', reason: '' }, reason: {} });
 		} catch (err) {

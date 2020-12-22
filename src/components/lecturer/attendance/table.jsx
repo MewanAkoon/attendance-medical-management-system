@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import renderData from '../../common/progressBar';
+import { baseURL } from '../../../baseURL';
 
 class AttendanceTable extends Component {
 	state = { present: [], total: [], students: [], lecture: '' };
 
-	async componentDidMount() {
+	componentDidMount() {
+		this.loadData();
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps !== this.props) this.loadData();
+	}
+
+	loadData = async () => {
 		const { code, date } = this.props;
 
 		try {
-			const { data: course } = await axios.get(
-				`http://localhost:9000/api/courses/${code}`
-			);
+			const { data: course } = await axios.get(`${baseURL}/courses/${code}`);
 
 			const { data: total } = await axios.get(
-				`http://localhost:9000/api/users?role=student&code=${code}`
+				`${baseURL}/users?role=student&code=${code}`
 			);
 
 			const { data: present } = await axios.post(
-				`http://localhost:9000/api/attendance/${code}`,
+				`${baseURL}/attendance/${code}`,
 				{
 					date
 				}
@@ -33,7 +40,7 @@ class AttendanceTable extends Component {
 		} catch (err) {
 			console.error(err.message);
 		}
-	}
+	};
 
 	isPresent = student => {
 		return this.state.students.includes(student);

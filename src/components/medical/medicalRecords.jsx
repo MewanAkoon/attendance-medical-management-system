@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-
+import { baseURL } from '../../baseURL';
 import Loading from '../common/loading';
 import MedicalTable from './medicalTable';
 
@@ -9,9 +9,7 @@ class MedicalRecords extends Component {
 	state = { records: [], loading: true };
 
 	async componentDidMount() {
-		const { data: records } = await axios.get(
-			'http://localhost:9000/api/medicals'
-		);
+		const { data: records } = await axios.get(`${baseURL}/medicals`);
 		this.setState({ records, loading: false });
 	}
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
 import axios from 'axios';
+import { baseURL } from '../baseURL';
 import { userLoggedIn } from '../store/login';
 
 class LoginForm extends Form {
@@ -19,7 +20,7 @@ class LoginForm extends Form {
 		const { username, password } = this.state.data;
 		try {
 			const { data } = await axios.post(
-				`http://localhost:9000/api/users/${username}/${password}`
+				`${baseURL}/users/${username}/${password}`
 			);
 
 			this.props.dispatch(

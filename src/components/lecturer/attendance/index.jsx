@@ -6,28 +6,25 @@ import AttendanceTable from './table';
 class AttendanceLec extends Component {
 	state = { currentCourse: '', date: '' };
 
-	handleCourseSelect = course => {
-		this.setState({ currentCourse: course });
+	handleChange = (course, date) => {
+		this.setState({ currentCourse: course, date });
 	};
 
-	handleDateSelect = date => {
-		this.setState({ date });
+	handleCourseSelect = () => {
+		this.setState({ currentCourse: '', date: '' });
 	};
 
-	componentDidUpdate(prevProps, prevState) {
-		const { currentCourse } = this.state;
-		if (prevState !== this.state && prevState.currentCourse !== currentCourse)
-			this.setState({ date: '' });
-	}
+	renderList() {
+		const { courses } = this.props.user;
+		const { date } = this.state;
 
-	renderList(courses, date) {
 		return (
 			<Accordion>
 				{courses.map(c => (
 					<Card key={c} style={{ cursor: 'pointer' }}>
 						<Course
+							onChange={this.handleChange}
 							onCourseSelect={this.handleCourseSelect}
-							onDateSelect={this.handleDateSelect}
 							course={c}
 							selectedDate={date}
 						/>
@@ -50,10 +47,6 @@ class AttendanceLec extends Component {
 		);
 	};
 
-	renderAttendance = (course, date) => {
-		return <AttendanceTable code={course} date={date} />;
-	};
-
 	renderBreadCrumbs = () => {
 		return (
 			<Breadcrumb>
@@ -64,9 +57,7 @@ class AttendanceLec extends Component {
 	};
 
 	render() {
-		const { courses } = this.props.user;
 		const { currentCourse, date } = this.state;
-
 		return (
 			<React.Fragment>
 				{this.renderBreadCrumbs()}
@@ -74,12 +65,13 @@ class AttendanceLec extends Component {
 					Attendance Report
 				</div>
 				<div className='row'>
-					<div className='col-3'>{this.renderList(courses, date)}</div>
+					<div className='col-3'>{this.renderList()}</div>
 					<div className='col'>
-						{!(currentCourse && date) && this.renderAlert()}
-						{currentCourse &&
-							date &&
-							this.renderAttendance(currentCourse, date)}
+						{currentCourse && date ? (
+							<AttendanceTable code={currentCourse} date={date} />
+						) : (
+							this.renderAlert()
+						)}
 					</div>
 				</div>
 			</React.Fragment>

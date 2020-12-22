@@ -78,7 +78,6 @@ router.post('/:studentId/:courseId', async (req, res) => {
     const attendance = await Attendance
       .find({ student: req.params.studentId, course: req.params.courseId })
       .select('timestamp -_id');
-    console.log(attendance);
     if (!attendance) return res.status(404).send(attendance);
     res.send(attendance);
   } catch (err) {

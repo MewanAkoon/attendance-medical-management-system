@@ -1,15 +1,16 @@
 import React from 'react';
 import Date from './date';
 
-const Dates = ({ dates, selectedDate, onDateSelect }) => {
+const Dates = ({ course, dates, selectedDate, onChange }) => {
 	return (
 		<div className='list-group list-group-flush text-center'>
 			{dates.map(d => (
 				<Date
-					selectedDate={selectedDate}
-					onDateSelect={onDateSelect}
 					key={d._id}
+					course={course}
 					date={d.date}
+					selectedDate={selectedDate}
+					onChange={onChange}
 				/>
 			))}
 		</div>

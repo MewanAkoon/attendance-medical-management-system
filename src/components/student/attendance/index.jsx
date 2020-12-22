@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Course from './course';
 import AttendanceTable from './table';
+import { baseURL } from '../../../baseURL';
 import axios from 'axios';
 import moment from 'moment';
 import { Breadcrumb } from 'react-bootstrap';
@@ -10,9 +11,7 @@ class AttendanceStu extends Component {
 
 	handleCourseSelect = async code => {
 		try {
-			const { data } = await axios.get(
-				`http://localhost:9000/api/courses/${code}`
-			);
+			const { data } = await axios.get(`${baseURL}/courses/${code}`);
 
 			const course = {
 				id: data._id,
@@ -21,7 +20,7 @@ class AttendanceStu extends Component {
 			};
 
 			const { data: dates } = await axios.post(
-				`http://localhost:9000/api/attendance/${this.props.user.id}/${course.id}`
+				`${baseURL}/attendance/${this.props.user.id}/${course.id}`
 			);
 
 			const presentDates =

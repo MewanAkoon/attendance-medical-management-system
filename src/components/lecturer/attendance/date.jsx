@@ -8,10 +8,10 @@ const getDate = date => {
 const getClasses = (date, selectedDate) =>
 	date === selectedDate ? 'list-group-item active' : 'list-group-item';
 
-const Date = ({ date, selectedDate, onDateSelect }) => {
+const Date = ({ course, date, selectedDate, onChange }) => {
 	return (
 		<small
-			onClick={() => onDateSelect(date)}
+			onClick={() => onChange(course, date)}
 			className={getClasses(date, selectedDate)}>
 			{getDate(date)}
 		</small>

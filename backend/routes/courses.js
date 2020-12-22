@@ -46,7 +46,6 @@ router.post('/', async (req, res) => {
 // Adds the current date and lecture name
 // Lecture name is passed via body
 router.patch('/:code/:password', async (req, res) => {
-  console.log(req.body);
   const { error } = validatePasswordAndLecture(
     { password: req.params.password, lecture: req.body.lecture });
   if (error) return res.status(404).send(error.details[0].message);

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Accordion, Card } from 'react-bootstrap';
 import Dates from './dates';
+import { baseURL } from '../../../baseURL';
+import { Accordion, Card } from 'react-bootstrap';
 
 class Course extends Component {
 	state = { course: {} };
@@ -9,7 +10,7 @@ class Course extends Component {
 	async componentDidMount() {
 		try {
 			const { data } = await axios.get(
-				`http://localhost:9000/api/courses/${this.props.course}`
+				`${baseURL}/courses/${this.props.course}`
 			);
 
 			const course = {
@@ -26,12 +27,13 @@ class Course extends Component {
 
 	render() {
 		const { code, name, dates } = this.state.course;
+		const { onChange, onCourseSelect, selectedDate } = this.props;
 		return (
 			<React.Fragment>
 				<Accordion.Toggle
 					as={Card.Header}
 					className='text-center text-primary'
-					onClick={() => this.props.onCourseSelect(code)}
+					onClick={onCourseSelect}
 					eventKey={code}>
 					{`${name} (${code})`}
 				</Accordion.Toggle>
@@ -39,9 +41,10 @@ class Course extends Component {
 					<Accordion.Collapse eventKey={code}>
 						<Card.Body className='p-0'>
 							<Dates
-								onDateSelect={this.props.onDateSelect}
-								selectedDate={this.props.selectedDate}
+								course={code}
 								dates={dates}
+								onChange={onChange}
+								selectedDate={selectedDate}
 							/>
 						</Card.Body>
 					</Accordion.Collapse>

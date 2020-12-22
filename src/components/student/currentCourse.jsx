@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { isActive } from '../common/isActive';
+import { baseURL } from '../../baseURL';
 import axios from 'axios';
 import { Breadcrumb } from 'react-bootstrap';
 
@@ -9,9 +10,7 @@ class CurrentCourse extends Component {
 	async componentDidMount() {
 		try {
 			const code = this.props.match.params.code;
-			const { data } = await axios.get(
-				`http://localhost:9000/api/courses/${code}`
-			);
+			const { data } = await axios.get(`${baseURL}/courses/${code}`);
 
 			const course = {
 				id: data._id,
@@ -31,7 +30,7 @@ class CurrentCourse extends Component {
 	isMarked = async (student, course) => {
 		try {
 			const { data } = await axios.get(
-				`http://localhost:9000/api/attendance/${student}/${course}`
+				`${baseURL}/attendance/${student}/${course}`
 			);
 			return data;
 		} catch (err) {
@@ -48,7 +47,7 @@ class CurrentCourse extends Component {
 			};
 
 			try {
-				await axios.post('http://localhost:9000/api/attendance', obj);
+				await axios.post(`${baseURL}/attendance`, obj);
 				this.setState({ marked: true });
 			} catch (err) {
 				console.error(err);
