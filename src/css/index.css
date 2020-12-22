@@ -10,3 +10,18 @@
   height: 300px;
   padding: 1rem;
 }
+
+.icon-badge {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 18%;
+  right: 20%;
+  color: white;
+  font-size: small;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
