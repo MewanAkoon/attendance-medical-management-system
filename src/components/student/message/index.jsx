@@ -53,7 +53,7 @@ class Messages extends Component {
 						  )
 						: [];
 
-				// get notifications for the current course
+				// get messages for the current course
 				const message = new Message(course, presentDates).notify();
 
 				if (message) {
@@ -66,7 +66,7 @@ class Messages extends Component {
 		}
 	};
 
-	getBellIcon = () => {
+	getMessageIcon = () => {
 		const { count, watched } = this.state;
 		return (
 			<React.Fragment>
@@ -107,9 +107,9 @@ class Messages extends Component {
 		return (
 			<NavDropdown
 				onClick={() => this.setState({ watched: true })}
-				title={this.getBellIcon()}
+				title={this.getMessageIcon()}
 				id='dropdown-navbar'>
-				<div className='px-4 py-1' style={{ width: 400 }}>
+				<div className='px-4 py-1' style={{ width: 400, minHeight: 150 }}>
 					<p className='text-dark m-0'>Messages</p>
 					<hr className='my-2' />
 					{this.state.count > 0 && this.renderMessage()}

@@ -7,6 +7,7 @@ import MedicalNav from './medical/navItem';
 import LecturerNav from './lecturer/navItem';
 import StudentNav from './student/navItem';
 import MessageMenu from './message';
+import NotificationMenu from './notification';
 
 const Navbar = props => {
 	const { id, firstName, username, role } = props;
@@ -22,6 +23,9 @@ const Navbar = props => {
 				/>
 			</span>
 			<ul className='navbar-nav'>
+				{/* Notification Menu */}
+				{id && <NotificationMenu user={{ id, firstName, username, role }} />}
+
 				{/* Message Menu */}
 				{id && <MessageMenu user={{ id, firstName, username, role }} />}
 
