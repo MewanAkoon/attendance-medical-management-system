@@ -6,7 +6,7 @@ import { baseURL } from '../../../baseURL';
 import { NavDropdown } from 'react-bootstrap';
 
 class Messages extends Component {
-	state = { messages: [], courses: [], count: 0 };
+	state = { messages: [], courses: [], count: 0, watched: false };
 
 	async componentDidMount() {
 		try {
@@ -67,19 +67,22 @@ class Messages extends Component {
 	};
 
 	getBellIcon = () => {
-		const { count } = this.state;
+		const { count, watched } = this.state;
 		return (
 			<React.Fragment>
 				<i className='text-white fa fa-envelope' aria-hidden='true' />
-				{count > 0 && <span className='icon-badge'>{count}</span>}
+				{count > 0 && !watched && <span className='icon-badge'>{count}</span>}
 			</React.Fragment>
 		);
 	};
+
+	getDuration = day => moment(day, 'YYYY:MM:DD').fromNow();
 
 	getAbsentDays = absentDays => {
 		let string = '';
 		absentDays.forEach(day => {
 			string += !string ? day : `, ${day}`;
+			string += ` (${this.getDuration(day)})`;
 		});
 		return string;
 	};
@@ -102,7 +105,10 @@ class Messages extends Component {
 
 	render() {
 		return (
-			<NavDropdown title={this.getBellIcon()} id='dropdown-navbar'>
+			<NavDropdown
+				onClick={() => this.setState({ watched: true })}
+				title={this.getBellIcon()}
+				id='dropdown-navbar'>
 				<div className='px-4 py-1' style={{ width: 400 }}>
 					<p className='text-dark m-0'>Messages</p>
 					<hr className='my-2' />

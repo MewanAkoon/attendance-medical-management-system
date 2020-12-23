@@ -6,7 +6,7 @@ import logo from '../images/logos/3.svg';
 import MedicalNav from './medical/navItem';
 import LecturerNav from './lecturer/navItem';
 import StudentNav from './student/navItem';
-import NotificationMenu from './notification';
+import MessageMenu from './message';
 
 const Navbar = props => {
 	const { id, firstName, username, role } = props;
@@ -22,8 +22,8 @@ const Navbar = props => {
 				/>
 			</span>
 			<ul className='navbar-nav'>
-				{/* Notification Menu */}
-				{id && <NotificationMenu user={{ id, firstName, username, role }} />}
+				{/* Message Menu */}
+				{id && <MessageMenu user={{ id, firstName, username, role }} />}
 
 				{/* Username display */}
 				<li className='nav-item nav-link text-light'>
