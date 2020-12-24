@@ -172,7 +172,7 @@ class CurrentCourse extends Form {
 						{this.state.url && (
 							<a
 								href={this.state.url}
-								className='qrbox mt-2'
+								className='qrbox mt-4 mx-auto'
 								target='_blank'
 								rel='noreferrer'>
 								<img src={this.state.url} className='w-100' alt='qr-code' />
