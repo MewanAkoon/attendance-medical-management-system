@@ -78,7 +78,16 @@ class Messages extends Component {
 
 	getDuration = day => moment(day, 'YYYY:MM:DD').fromNow();
 
+	isAfter = (day1, day2) => {
+		day1 = moment(day1, 'YYYY:MM:DD');
+		day2 = moment(day2, 'YYYY:MM:DD');
+
+		return moment(day1).isAfter(day2) ? -1 : 1;
+	};
+
 	getAbsentDays = absentDays => {
+		absentDays.sort((a, b) => this.isAfter(a, b));
+
 		let string = '';
 		absentDays.forEach(day => {
 			string += !string ? day : `, ${day}`;
@@ -88,7 +97,14 @@ class Messages extends Component {
 	};
 
 	renderMessage = () => {
-		const { messages } = this.state;
+		const { messages } = { ...this.state };
+
+		messages.sort((a, b) =>
+			this.isAfter(
+				a.absentDays[a.absentDays.length - 1],
+				b.absentDays[b.absentDays.length - 1]
+			)
+		);
 
 		return messages.map(m => (
 			<div key={m.code} className='alert alert-danger mb-2'>

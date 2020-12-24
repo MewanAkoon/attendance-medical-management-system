@@ -4,19 +4,33 @@ class Notification {
 
   state = { course: {} }
 
-  constructor(course, presentDays) {
+  constructor(course) {
     this.state.course = course;
   }
 
   notify() {
-    return null;
+    return this.status();
   }
 
-  getDate = (date) => moment(date, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD');
+  status() {
+    const { code, name, schedule } = this.state.course;
 
-  upcoming() {
-    const now = moment().format('YYYY:MM:DD HH:mm:ss');
-    console.log(now);
+    const now = moment();
+    const currentDay = now.day();
+
+    if (schedule.day === currentDay) {
+      const timestamp = moment().hour(schedule.startTime).minutes(0).seconds(0);
+      const remaining = timestamp.diff(now, 'minutes');
+
+      const upcoming = remaining > 0;
+      const ongoing = remaining <= 0 && remaining > -(schedule.duration * 60);
+
+      if (upcoming || ongoing)
+        return {
+          code, name, time: remaining
+        }
+    }
+    return null;
   }
 }
 

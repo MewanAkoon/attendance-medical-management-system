@@ -60,10 +60,40 @@ class Notifications extends Component {
 		);
 	};
 
-	getDuration = day => moment(day, 'YYYY:MM:DD').fromNow();
+	renderUpcoming = n => {
+		return (
+			<div key={n.code} className='alert alert-success mb-2'>
+				<small>
+					<strong>
+						{n.name} {n.code}
+					</strong>{' '}
+					lecture {moment.duration(n.time, 'minutes').humanize(true)}
+				</small>
+			</div>
+		);
+	};
 
-	renderMessage = () => {
-		return null;
+	renderOngoing = n => {
+		return (
+			<div key={n.code} className='alert alert-primary mb-2'>
+				<small>
+					<strong>
+						{n.name} {n.code}
+					</strong>{' '}
+					lecture ongoing.
+				</small>
+			</div>
+		);
+	};
+
+	renderNotification = () => {
+		const { notifications } = { ...this.state };
+
+		notifications.sort((a, b) => a.time - b.time);
+
+		return notifications.map(n =>
+			n.time > 0 ? this.renderUpcoming(n) : this.renderOngoing(n)
+		);
 	};
 
 	render() {
@@ -75,7 +105,7 @@ class Notifications extends Component {
 				<div className='px-4 py-1' style={{ width: 400, minHeight: 150 }}>
 					<p className='text-dark m-0'>Notifications</p>
 					<hr className='my-2' />
-					{this.state.count > 0 && this.renderMessage()}
+					{this.state.count > 0 && this.renderNotification()}
 				</div>
 			</NavDropdown>
 		);
