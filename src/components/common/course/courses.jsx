@@ -4,7 +4,7 @@ import Loading from '../../common/loading';
 import Course from './course';
 import { baseURL } from '../../../baseURL';
 import { Breadcrumb } from 'react-bootstrap';
-import { Calendar } from 'react-modern-calendar-datepicker';
+import { Calendar, utils } from 'react-modern-calendar-datepicker';
 import { isActive } from '../isActive';
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
@@ -72,7 +72,28 @@ class Courses extends Component {
 			});
 		});
 
+		schedule.sort((a, b) => this.isAfter(a, b));
 		return schedule;
+	};
+
+	// sorts the schedule
+	isAfter = (day1, day2) => {
+		day1 = moment()
+			.date(day1.day)
+			.month((day1.month - 1) % 13)
+			.year(day1.year)
+			.hour(0)
+			.minute(0)
+			.second(0);
+		day2 = moment()
+			.date(day2.day)
+			.month((day2.month - 1) % 13)
+			.year(day2.year)
+			.hour(0)
+			.minute(0)
+			.second(0);
+
+		return moment(day1).isAfter(day2) ? 1 : -1;
 	};
 
 	getSelectedDay = (days, schedule) => {
@@ -136,6 +157,8 @@ class Courses extends Component {
 											value={schedule}
 											colorPrimary='#0fbcf9'
 											onChange={days => this.getSelectedDay(days, schedule)}
+											minimumDate={utils().getToday()}
+											maximumDate={schedule[schedule.length - 1]}
 											shouldHighlightWeekends
 										/>
 									</div>
