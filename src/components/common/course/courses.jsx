@@ -45,7 +45,8 @@ class Courses extends Component {
 		const now = moment();
 
 		courses.forEach(c => {
-			const m = moment().day(c.schedule.day, 'e').hour(c.schedule.startTime);
+			// this week
+			let m = moment().day(c.schedule.day, 'e').hour(c.schedule.startTime);
 
 			if (m.isSameOrAfter(now)) {
 				schedule.push({
@@ -57,6 +58,18 @@ class Courses extends Component {
 					startTime: c.schedule.startTime
 				});
 			}
+
+			// Next Week
+			m = m.week(2, 'W');
+
+			schedule.push({
+				code: c.code,
+				name: c.name,
+				year: m.year(),
+				month: (m.month() + 1) % 13,
+				day: m.date(),
+				startTime: c.schedule.startTime
+			});
 		});
 
 		return schedule;
