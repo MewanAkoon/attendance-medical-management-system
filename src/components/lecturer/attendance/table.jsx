@@ -68,6 +68,8 @@ class AttendanceTable extends Component {
 			course: { code, name, lecturer },
 			date
 		};
+
+		console.log(data);
 	};
 
 	renderDownloadPdfButton = () => (
