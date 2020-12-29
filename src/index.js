@@ -8,6 +8,7 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-modern-calendar-datepicker/lib/DatePicker.css'
 import reportWebVitals from './reportWebVitals';
 
 import reducer from './store';

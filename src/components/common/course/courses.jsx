@@ -4,7 +4,10 @@ import Loading from '../../common/loading';
 import Course from './course';
 import { baseURL } from '../../../baseURL';
 import { Breadcrumb } from 'react-bootstrap';
+import { Calendar } from 'react-modern-calendar-datepicker';
 import { isActive } from '../isActive';
+import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
 
 class Courses extends Component {
 	state = {
@@ -36,26 +39,90 @@ class Courses extends Component {
 		);
 	};
 
+	getCourseDates = () => {
+		const { courses } = this.state;
+		const schedule = [];
+		const now = moment();
+
+		courses.forEach(c => {
+			const m = moment().day(c.schedule.day, 'e');
+
+			if (m.isSameOrAfter(now)) {
+				schedule.push({
+					code: c.code,
+					name: c.name,
+					year: m.year(),
+					month: (m.month() + 1) % 13,
+					day: m.date()
+				});
+			}
+		});
+
+		return schedule;
+	};
+
+	getSelectedDay = (days, schedule) => {
+		let date = '';
+		if (days.length > schedule.length) date = days[days.length - 1];
+		else date = schedule.find(d => !days.includes(d));
+
+		const dateString = moment()
+			.date(date.day)
+			.month((date.month - 1) % 12)
+			.year(date.year)
+			.format('dddd, MMMM Do');
+
+		const str =
+			date.code && date.name && `${date.name} - ${date.code} on ${dateString}`;
+
+		toast.info(str);
+	};
+
 	render() {
 		const { courses, loading } = this.state;
-
+		const schedule = this.getCourseDates();
 		courses.sort((a, b) => (isActive(a.schedule) ? -1 : 1));
 
 		return loading ? (
 			<Loading />
 		) : (
 			courses.length > 0 && (
-				<div>
-					{this.renderBreadCrumbs()}
-					<div className='card'>
-						<div className='card-header'>Course Overview</div>
-						<div className='card-body'>
-							{courses.map(c => (
-								<Course key={c.code} course={c} />
-							))}
+				<React.Fragment>
+					<ToastContainer
+						position='top-center'
+						autoClose={3000}
+						pauseOnHover={true}
+						hideProgressBar={true}
+						// className='text-center'
+					/>
+					<div>
+						{this.renderBreadCrumbs()}
+
+						<div className='card'>
+							<div className='card-header'>Course Overview</div>
+							<div className='row'>
+								<div className='col-8 pr-0'>
+									<div className='card-body pr-0'>
+										{courses.map(c => (
+											<Course key={c.code} course={c} />
+										))}
+									</div>
+								</div>
+								<div className='col'>
+									<div className='mt-4'>
+										<Calendar
+											className='w-100 h-100'
+											value={schedule}
+											colorPrimary='#0fbcf9'
+											onChange={days => this.getSelectedDay(days, schedule)}
+											shouldHighlightWeekends
+										/>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</React.Fragment>
 			)
 		);
 	}

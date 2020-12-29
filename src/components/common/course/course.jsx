@@ -13,7 +13,12 @@ const Course = ({ course }) => {
 		<div className='card my-2'>
 			<div className='row mx-0'>
 				<div className='col-1'>
-					<img src={getIcon()} alt='logo' className='w-100 h-100' />
+					<img
+						src={getIcon()}
+						alt='logo'
+						style={{ minWidth: 50, minHeight: 50 }}
+						className='w-100 h-100'
+					/>
 				</div>
 				<div className='col'>
 					<div className='card-body'>

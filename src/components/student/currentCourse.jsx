@@ -65,7 +65,21 @@ class CurrentCourse extends Component {
 		);
 	};
 
-	renderMessage = () => {};
+	renderMessage = (password, marked) => {
+		return marked ? (
+			<div className='alert alert-success w-75 mx-auto mb-0'>
+				<span>You already Marked Attendance for this course.</span>
+			</div>
+		) : password ? (
+			<div className='alert alert-warning w-75 mx-auto mb-0'>
+				<span>You can mark your attendance from the mobile app.</span>
+			</div>
+		) : (
+			<div className='alert alert-primary w-75 mx-auto mb-0'>
+				<span>Course is currently active.</span>
+			</div>
+		);
+	};
 
 	renderBreadCrumbs = () => {
 		return (
@@ -84,13 +98,25 @@ class CurrentCourse extends Component {
 				{this.renderBreadCrumbs()}
 				<div className='jumbotron p-2 py-4 text-center'>
 					{this.getHeader()}
-					{active && password && !marked && (
-						<div className='mt-4'>
-							<button
-								className='btn btn-primary btn-block'
-								onClick={() => this.markAttendance(password)}>
-								Scan QR
-							</button>
+
+					{/* Mark Attendance */}
+					{/* {active && password
+						? !marked && (
+								<div className='mt-4'>
+									<button
+										className='btn btn-primary btn-block'
+										onClick={() => this.markAttendance(password)}>
+										Scan QR
+									</button>
+								</div>
+						  )
+						: marked && this.renderMessage(marked)} */}
+
+					{active ? (
+						this.renderMessage(password, marked)
+					) : (
+						<div className='alert alert-secondary w-75 mx-auto mb-0'>
+							Course is not currently active
 						</div>
 					)}
 				</div>
