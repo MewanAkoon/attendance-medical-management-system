@@ -53,7 +53,8 @@ class Courses extends Component {
 					name: c.name,
 					year: m.year(),
 					month: (m.month() + 1) % 13,
-					day: m.date()
+					day: m.date(),
+					startTime: c.schedule.startTime
 				});
 			}
 		});
@@ -62,20 +63,26 @@ class Courses extends Component {
 	};
 
 	getSelectedDay = (days, schedule) => {
-		let date = '';
-		if (days.length > schedule.length) date = days[days.length - 1];
-		else date = schedule.find(d => !days.includes(d));
+		let dates = '';
+		if (days.length < schedule.length)
+			dates = schedule.filter(d => !days.includes(d));
 
-		const dateString = moment()
-			.date(date.day)
-			.month((date.month - 1) % 12)
-			.year(date.year)
-			.format('dddd, MMMM Do');
+		dates.forEach(date => {
+			console.log(date);
+			const dateString = moment()
+				.date(date.day)
+				.month((date.month - 1) % 12)
+				.year(date.year)
+				.format('dddd, MMMM Do');
 
-		const str =
-			date.code && date.name && `${date.name} - ${date.code} on ${dateString}`;
+			const timeString = moment()
+				.hour(date.startTime, 'H')
+				.minute(0)
+				.format('hA');
 
-		toast.info(str);
+			const str = `${date.name} - ${date.code} on ${dateString} at ${timeString}`;
+			toast.info(str);
+		});
 	};
 
 	render() {
