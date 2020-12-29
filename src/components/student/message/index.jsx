@@ -4,6 +4,7 @@ import moment from 'moment';
 import Message from '../../common/message';
 import { baseURL } from '../../../baseURL';
 import { NavDropdown } from 'react-bootstrap';
+import { isActive } from '../../common/isActive';
 
 class Messages extends Component {
 	state = { messages: [], courses: [], count: 0, watched: false };
@@ -38,7 +39,8 @@ class Messages extends Component {
 					dates:
 						data.dates && data.dates.length > 0
 							? data.dates.map(d => d.date)
-							: []
+							: [],
+					active: isActive(data.schedule)
 				};
 
 				// get present dates
@@ -49,7 +51,8 @@ class Messages extends Component {
 				const presentDates =
 					dates && dates.length > 0
 						? dates.map(d =>
-								moment(d.timestamp, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD')
+								// moment(d.timestamp, 'YYYY:MM:DD HH:mm:ss').format('YYYY:MM:DD')
+								moment(d.timestamp, 'YYYY:MM:DD HH:mm:ss')
 						  )
 						: [];
 
@@ -76,7 +79,10 @@ class Messages extends Component {
 		);
 	};
 
-	getDuration = day => moment(day, 'YYYY:MM:DD').fromNow();
+	getDuration = (day, schedule) =>
+		moment(day, 'YYYY:MM:DD')
+			.hour(schedule.startTime + schedule.duration)
+			.fromNow();
 
 	isAfter = (day1, day2) => {
 		day1 = moment(day1, 'YYYY:MM:DD');
@@ -85,13 +91,13 @@ class Messages extends Component {
 		return moment(day1).isAfter(day2) ? -1 : 1;
 	};
 
-	getAbsentDays = absentDays => {
+	getAbsentDays = ({ absentDays, schedule }) => {
 		absentDays.sort((a, b) => this.isAfter(a, b));
 
 		let string = '';
 		absentDays.forEach(day => {
 			string += !string ? day : `, ${day}`;
-			string += ` (${this.getDuration(day)})`;
+			string += ` (${this.getDuration(day, schedule)})`;
 		});
 		return string;
 	};
@@ -113,7 +119,7 @@ class Messages extends Component {
 						{m.name} ({m.code})
 					</strong>{' '}
 					missed {m.absentDays.length > 1 ? 'lectures' : 'lecture'} on{' '}
-					{this.getAbsentDays(m.absentDays)}
+					{this.getAbsentDays(m)}
 				</small>
 			</div>
 		));

@@ -10,12 +10,13 @@ class Message {
   }
 
   notify() {
-    const { code, name } = this.state.course;
+    const { code, name, schedule } = this.state.course;
     this.getAbsentDays();
 
     return this.state.absentDays.length > 0 ? {
       code,
       name,
+      schedule,
       absentDays: this.state.absentDays
     } : null;
   }
@@ -23,12 +24,15 @@ class Message {
   getAbsentDays = () => {
     let arr = [];
     const { presentDays } = this.state;
-    const { dates: totalDays } = this.state.course;
+    const { dates: totalDays, active } = this.state.course;
+    const currentDate = moment().format('YYYY:MM:DD');
 
     if (totalDays.length > 0)
       arr = totalDays
-        .filter(date => !presentDays.includes(this.getDate(date)))
-        .map(date => this.getDate(date));
+        .map(date => this.getDate(date))
+        .filter(date => !presentDays.includes(date));
+
+    if (active) arr = arr.filter(date => date !== currentDate);
 
     this.state.absentDays = arr;
   }
