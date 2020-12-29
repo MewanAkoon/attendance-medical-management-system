@@ -4,6 +4,7 @@ import Loading from '../../common/loading';
 import Course from './course';
 import { baseURL } from '../../../baseURL';
 import { Breadcrumb } from 'react-bootstrap';
+import { isActive } from '../isActive';
 
 class Courses extends Component {
 	state = {
@@ -37,6 +38,9 @@ class Courses extends Component {
 
 	render() {
 		const { courses, loading } = this.state;
+
+		courses.sort((a, b) => (isActive(a.schedule) ? -1 : 1));
+
 		return loading ? (
 			<Loading />
 		) : (
