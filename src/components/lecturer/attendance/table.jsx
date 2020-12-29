@@ -4,7 +4,14 @@ import renderData from '../../common/progressBar';
 import { baseURL } from '../../../baseURL';
 
 class AttendanceTable extends Component {
-	state = { present: [], total: [], students: [], lecture: '' };
+	state = {
+		present: [],
+		total: [],
+		students: [],
+		lecture: '',
+		date: '',
+		course: {}
+	};
 
 	componentDidMount() {
 		this.loadData();
@@ -36,11 +43,40 @@ class AttendanceTable extends Component {
 
 			const students = present.map(p => p.student._id);
 
-			this.setState({ present, total, students, lecture });
+			this.setState({ present, total, students, lecture, date, course });
 		} catch (err) {
 			console.error(err.message);
 		}
 	};
+
+	generatePdf = async () => {
+		const {
+			total: records,
+			course: { code, name, lecturer },
+			date
+		} = this.state;
+
+		const items = records.map(r => [
+			r.firstName,
+			r.username,
+			this.isPresent(r._id)
+		]);
+
+		const data = {
+			headers: ['Index Number', 'Name', 'Status'],
+			items,
+			course: { code, name, lecturer },
+			date
+		};
+	};
+
+	renderDownloadPdfButton = () => (
+		<button className='btn btn-primary w-100' onClick={this.generatePdf}>
+			<small>
+				GENERATE PDF <i className='fa fa-download ml-1' aria-hidden='true' />
+			</small>
+		</button>
+	);
 
 	isPresent = student => {
 		return this.state.students.includes(student);
@@ -61,7 +97,11 @@ class AttendanceTable extends Component {
 		return (
 			<div className='jumbotron py-4'>
 				{renderData(present.length, records.length)}
-				{this.renderLectureDetails()}
+
+				<div className='row justify-content-between'>
+					<div className='col-9'>{this.renderLectureDetails()}</div>
+					<div className='col'>{this.renderDownloadPdfButton()}</div>
+				</div>
 
 				<table className='table table-hover table-sm'>
 					<thead className='thead-dark'>
