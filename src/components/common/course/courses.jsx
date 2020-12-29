@@ -45,7 +45,7 @@ class Courses extends Component {
 		const now = moment();
 
 		courses.forEach(c => {
-			const m = moment().day(c.schedule.day, 'e');
+			const m = moment().day(c.schedule.day, 'e').hour(c.schedule.startTime);
 
 			if (m.isSameOrAfter(now)) {
 				schedule.push({
@@ -64,25 +64,26 @@ class Courses extends Component {
 
 	getSelectedDay = (days, schedule) => {
 		let dates = '';
-		if (days.length < schedule.length)
+		if (days.length < schedule.length) {
 			dates = schedule.filter(d => !days.includes(d));
 
-		dates.forEach(date => {
-			console.log(date);
-			const dateString = moment()
-				.date(date.day)
-				.month((date.month - 1) % 12)
-				.year(date.year)
-				.format('dddd, MMMM Do');
+			dates.forEach(date => {
+				console.log(date);
+				const dateString = moment()
+					.date(date.day)
+					.month((date.month - 1) % 12)
+					.year(date.year)
+					.format('dddd, MMMM Do');
 
-			const timeString = moment()
-				.hour(date.startTime, 'H')
-				.minute(0)
-				.format('hA');
+				const timeString = moment()
+					.hour(date.startTime, 'H')
+					.minute(0)
+					.format('hA');
 
-			const str = `${date.name} - ${date.code} on ${dateString} at ${timeString}`;
-			toast.info(str);
-		});
+				const str = `${date.name} - ${date.code} on ${dateString} at ${timeString}`;
+				toast.info(str);
+			});
+		}
 	};
 
 	render() {
