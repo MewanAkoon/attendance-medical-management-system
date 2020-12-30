@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import renderData from '../../common/progressBar';
 import { baseURL } from '../../../baseURL';
+import AttendancePDF from './attendancePDF';
 
 class AttendanceTable extends Component {
 	state = {
@@ -10,7 +11,8 @@ class AttendanceTable extends Component {
 		students: [],
 		lecture: '',
 		date: '',
-		course: {}
+		course: {},
+		pdfData: {}
 	};
 
 	componentDidMount() {
@@ -43,7 +45,15 @@ class AttendanceTable extends Component {
 
 			const students = present.map(p => p.student._id);
 
-			this.setState({ present, total, students, lecture, date, course });
+			this.setState({
+				present,
+				total,
+				students,
+				lecture,
+				date,
+				course,
+				pdfData: {}
+			});
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -53,7 +63,8 @@ class AttendanceTable extends Component {
 		const {
 			total: records,
 			course: { code, name, lecturer },
-			date
+			date,
+			lecture
 		} = this.state;
 
 		const items = records.map(r => [
@@ -66,10 +77,11 @@ class AttendanceTable extends Component {
 			headers: ['Index Number', 'Name', 'Status'],
 			items,
 			course: { code, name, lecturer },
-			date
+			date,
+			lecture
 		};
 
-		console.log(data);
+		this.setState({ pdfData: data });
 	};
 
 	renderDownloadPdfButton = () => (
@@ -94,9 +106,9 @@ class AttendanceTable extends Component {
 	};
 
 	render() {
-		const { present, total: records } = this.state;
+		const { present, total: records, pdfData } = this.state;
 
-		return (
+		return !pdfData.items ? (
 			<div className='jumbotron py-4'>
 				{renderData(present.length, records.length)}
 
@@ -130,6 +142,8 @@ class AttendanceTable extends Component {
 					</tbody>
 				</table>
 			</div>
+		) : (
+			<AttendancePDF {...pdfData} />
 		);
 	}
 }
