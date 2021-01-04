@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { baseURL } from '../../../baseURL';
 import axios from 'axios';
 
 class Course extends Component {
@@ -7,9 +6,7 @@ class Course extends Component {
 
 	async componentDidMount() {
 		try {
-			const { data } = await axios.get(
-				`${baseURL}/courses/${this.props.course}`
-			);
+			const { data } = await axios.get(`/api/courses/${this.props.course}`);
 
 			const course = {
 				code: data.code,

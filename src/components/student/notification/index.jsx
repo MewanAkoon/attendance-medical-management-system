@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import moment from 'moment';
 import Notification from '../../common/notification';
-import { baseURL } from '../../../baseURL';
 import { NavDropdown } from 'react-bootstrap';
 
 class Notifications extends Component {
@@ -19,7 +18,7 @@ class Notifications extends Component {
 
 	renderData = async () => {
 		const { id } = this.props.user;
-		const { data } = await axios.get(`${baseURL}/users/${id}`);
+		const { data } = await axios.get(`/api/users/${id}`);
 		this.setState({ courses: data.courses });
 	};
 
@@ -29,7 +28,7 @@ class Notifications extends Component {
 
 		if (courses && courses.length > 0) {
 			courses.forEach(async c => {
-				const { data } = await axios.get(`${baseURL}/courses/${c}`);
+				const { data } = await axios.get(`/api/courses/${c}`);
 				const course = {
 					id: data._id,
 					code: data.code,

@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import moment from 'moment';
 import Message from '../../common/message';
-import { baseURL } from '../../../baseURL';
 import { NavDropdown } from 'react-bootstrap';
 import { isActive } from '../../common/isActive';
 
@@ -20,7 +19,7 @@ class Messages extends Component {
 
 	renderData = async () => {
 		const { id } = this.props.user;
-		const { data } = await axios.get(`${baseURL}/users/${id}`);
+		const { data } = await axios.get(`/api/users/${id}`);
 		this.setState({ courses: data.courses });
 	};
 
@@ -30,7 +29,7 @@ class Messages extends Component {
 
 		if (courses && courses.length > 0) {
 			courses.forEach(async c => {
-				const { data } = await axios.get(`${baseURL}/courses/${c}`);
+				const { data } = await axios.get(`/api/courses/${c}`);
 				const course = {
 					id: data._id,
 					code: data.code,
@@ -45,7 +44,7 @@ class Messages extends Component {
 
 				// get present dates
 				const { data: dates } = await axios.post(
-					`${baseURL}/attendance/${this.props.user.id}/${course.id}`
+					`/api/attendance/${this.props.user.id}/${course.id}`
 				);
 
 				const presentDates =

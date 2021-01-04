@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import Dates from './dates';
-import { baseURL } from '../../../baseURL';
 import { Accordion, Card } from 'react-bootstrap';
 
 class Course extends Component {
@@ -9,9 +8,7 @@ class Course extends Component {
 
 	async componentDidMount() {
 		try {
-			const { data } = await axios.get(
-				`${baseURL}/courses/${this.props.course}`
-			);
+			const { data } = await axios.get(`/api/courses/${this.props.course}`);
 
 			const course = {
 				code: data.code,

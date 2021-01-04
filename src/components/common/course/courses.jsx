@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Loading from '../../common/loading';
 import Course from './course';
-import { baseURL } from '../../../baseURL';
 import { Breadcrumb } from 'react-bootstrap';
 import { Calendar, utils } from 'react-modern-calendar-datepicker';
 import { isActive } from '../isActive';
@@ -22,9 +21,7 @@ class Courses extends Component {
 
 		if (userCourses)
 			for (let i = 0; i < userCourses.length; i++) {
-				const { data } = await axios.get(
-					`${baseURL}/courses/${userCourses[i]}`
-				);
+				const { data } = await axios.get(`/api/courses/${userCourses[i]}`);
 				courses.push(data);
 			}
 

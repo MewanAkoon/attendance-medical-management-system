@@ -2,7 +2,6 @@ import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
 import axios from 'axios';
-import { baseURL } from '../baseURL';
 import { userLoggedIn } from '../store/login';
 
 class LoginForm extends Form {
@@ -19,9 +18,7 @@ class LoginForm extends Form {
 	doSubmit = async () => {
 		const { username, password } = this.state.data;
 		try {
-			const { data } = await axios.post(
-				`${baseURL}/users/${username}/${password}`
-			);
+			const { data } = await axios.post(`/api/users/${username}/${password}`);
 
 			this.props.dispatch(
 				userLoggedIn({

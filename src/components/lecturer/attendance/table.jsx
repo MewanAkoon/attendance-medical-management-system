@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import renderData from '../../common/progressBar';
-import { baseURL } from '../../../baseURL';
 import AttendancePDF from './attendancePDF';
 
 class AttendanceTable extends Component {
@@ -27,18 +26,15 @@ class AttendanceTable extends Component {
 		const { code, date } = this.props;
 
 		try {
-			const { data: course } = await axios.get(`${baseURL}/courses/${code}`);
+			const { data: course } = await axios.get(`/api/courses/${code}`);
 
 			const { data: total } = await axios.get(
-				`${baseURL}/users?role=student&code=${code}`
+				`/api/users?role=student&code=${code}`
 			);
 
-			const { data: present } = await axios.post(
-				`${baseURL}/attendance/${code}`,
-				{
-					date
-				}
-			);
+			const { data: present } = await axios.post(`/api/attendance/${code}`, {
+				date
+			});
 
 			// lecture name for the current date
 			const lecture = course.dates.filter(d => d.date === date)[0].lecture;
