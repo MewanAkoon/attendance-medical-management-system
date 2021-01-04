@@ -56,8 +56,10 @@ class Courses extends Component {
 				});
 			}
 
+			const currentWeek = m.week();
+
 			// Next Week
-			m = m.week(2, 'W');
+			m = m.week(currentWeek + 1, 'W');
 
 			schedule.push({
 				code: c.code,
@@ -99,7 +101,6 @@ class Courses extends Component {
 			dates = schedule.filter(d => !days.includes(d));
 
 			dates.forEach(date => {
-				console.log(date);
 				const dateString = moment()
 					.date(date.day)
 					.month((date.month - 1) % 12)
