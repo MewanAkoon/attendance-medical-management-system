@@ -1,26 +1,30 @@
 const express = require('express');
 const router = express.Router();
-
-const { getMedicalRecords, getMedicalRecord, addMedicalRecord } = require('../db/medicalRecords');
 const { MedicalRecord, validate } = require('../models/medicalRecord');
 
-router.get('/', (req, res) => {
-  const medicals = getMedicalRecords();
-  res.status(200).json(medicals);
+router.get('/', async (req, res) => {
+  try {
+    const records = await MedicalRecord.find().populate('index', 'firstName username');
+    if (records.length === 0) return res.status(404).send(records);
+    res.send(records);
+  } catch (err) {
+    res.status(404).send([]);
+  }
 });
 
-router.get('/:index', (req, res) => {
-  const medical = getMedicalRecord(req.params.index);
-  res.status(200).json(medical);
-});
-
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
-  const record = new MedicalRecord({ ...req.body, date: Date.now() });
-  addMedicalRecord(record);
-  res.send(record);
+  try {
+    const record = new MedicalRecord({ ...req.body, date: Date.now() });
+    console.log(record);
+    await record.save();
+    res.send(record);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).send(err.message)
+  }
 });
 
 module.exports = router;

@@ -8,7 +8,7 @@ const { Course, validate, validatePasswordAndLecture } = require('../models/cour
 router.get('/', async (req, res) => {
   try {
     const courses = await Course.find().populate('lecturer', { firstName: 1, username: 1 });
-    if (courses.length === 0) return res.status(404).send('No courses in the database...');
+    if (courses.length === 0) return res.status(404).send(courses);
     res.send(courses);
   } catch (err) {
     res.status(400).send(err);

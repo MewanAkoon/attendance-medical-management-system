@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     if (req.query.role) users = users.filter(user => user.role === req.query.role);
     if (req.query.code) users = users.filter(user => user.courses.includes(req.query.code));
 
-    if (users.length === 0) return res.status(404).send('No users in the database...');
+    if (users.length === 0) return res.status(404).send(users);
     res.send(users);
   } catch (err) {
     res.status(400).send(err);

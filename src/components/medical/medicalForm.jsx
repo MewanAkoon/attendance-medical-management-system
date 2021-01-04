@@ -2,12 +2,18 @@ import React from 'react';
 import Form from '../common/form';
 import Joi from 'joi';
 import axios from 'axios';
-import { Dropdown } from 'react-bootstrap';
+import { Breadcrumb, Dropdown } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 class MedicalForm extends Form {
 	state = {
-		data: { index: '', reason: '' },
+		data: {
+			index: '',
+			reason: '',
+			year: '',
+			semester: '',
+			livingPlace: 'hostel'
+		},
 		errors: {}
 	};
 
@@ -19,6 +25,11 @@ class MedicalForm extends Form {
 			.label('Index Number'),
 		firstName: Joi.string().required(),
 		username: Joi.string().required(),
+		year: Joi.number().min(1).max(4).required().label('Year'),
+		semester: Joi.number().min(1).max(2).required().label('Semester'),
+		livingPlace: Joi.string()
+			.regex(/^(hostel|boarding)$/)
+			.required('Living Place'),
 		reason: Joi.string()
 			.required()
 			.label('Reason')
@@ -79,16 +90,83 @@ class MedicalForm extends Form {
 		);
 	};
 
+	renderRadioButtons = () => {
+		const {
+			data: { livingPlace }
+		} = this.state;
+
+		return (
+			<div className='row px-2 pb-2 border-dark'>
+				<label className='col-5' htmlFor='living'>
+					Living Place
+				</label>
+				<div className='col'>
+					<label className='radio-inline mr-4'>
+						<input
+							type='radio'
+							className='mr-2'
+							name='livingPlace'
+							value='hostel'
+							checked={livingPlace === 'hostel'}
+							onChange={this.handleRadioButtonClick}
+						/>
+						Hostel
+					</label>
+					<label className='radio-inline'>
+						<input
+							type='radio'
+							className='mr-2'
+							name='livingPlace'
+							value='boarding'
+							checked={livingPlace === 'boarding'}
+							onChange={this.handleRadioButtonClick}
+						/>
+						Boarding
+					</label>
+				</div>
+			</div>
+		);
+	};
+
+	handleRadioButtonClick = ({ currentTarget: { value } }) => {
+		const { data } = this.state;
+		data.livingPlace = value;
+		this.setState({ data });
+	};
+
 	doSubmit = async () => {
-		const { index, reason } = this.state.data;
+		const { index, reason, year, semester, livingPlace } = this.state.data;
 
 		try {
-			await axios.post(`/api/medicals`, { index, reason });
+			await axios.post(`/api/medicals`, {
+				index,
+				reason,
+				year: parseInt(year),
+				semester: parseInt(semester),
+				livingPlace
+			});
 			toast.success('Medical Submitted.');
-			this.setState({ data: { index: '', reason: '' }, reason: {} });
+			this.setState({
+				data: {
+					index: '',
+					reason: '',
+					year: '',
+					semester: '',
+					livingPlace: 'hostel'
+				},
+				errors: {}
+			});
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	renderBreadCrumbs = () => {
+		return (
+			<Breadcrumb>
+				<Breadcrumb.Item active>Home</Breadcrumb.Item>
+			</Breadcrumb>
+		);
 	};
 
 	render() {
@@ -101,13 +179,28 @@ class MedicalForm extends Form {
 					hideProgressBar={true}
 					className='text-center'
 				/>
-				<div className='jumbotron w-50 mx-auto pt-4 pb-5'>
+
+				{this.renderBreadCrumbs()}
+
+				<div className='jumbotron mx-auto pt-4 pb-5'>
 					<h1 className='text-center display-4 mb-4'>Medical Form</h1>
-					<form onSubmit={this.handleSubmit} className='mx-auto'>
+					<form onSubmit={this.handleSubmit} className='mx-auto w-50'>
 						{this.renderInput('index', 'Index Number')(true)}
 						{this.state.data.username && (
 							<Dropdown>
 								{this.displayUserDetails()}
+
+								<div className='row'>
+									<div className='col'>
+										{this.renderInput('year', 'Year')(false)}
+									</div>
+									<div className='col'>
+										{this.renderInput('semester', 'Semester')(false)}
+									</div>
+								</div>
+
+								{this.renderRadioButtons()}
+
 								{this.renderTextArea('reason', 'Reason')}
 								{this.renderSubmitButton('Submit')}
 							</Dropdown>
