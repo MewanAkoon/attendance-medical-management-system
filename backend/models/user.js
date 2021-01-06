@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
   },
   courses: [{
     type: String,
-    match: /^(CSC|MAT|FSC|AMT|PHY)[a-zA-Z0-9]{3}([0-9]|α|β|δ)$/,
+    match: /^(CSC|MAT|FSC|AMT|PHY|head)[a-zA-Z0-9]{3}([0-9]|α|β|δ)$/,
     ref: 'Course'
   }]
 });
@@ -35,7 +35,7 @@ const validate = (user) => {
     username: Joi.string().required(),
     cityOrTown: Joi.string().min(3),
     country: Joi.string().min(3),
-    role: Joi.string().required().regex(/^(admin|lecturer|student|medical)$/),
+    role: Joi.string().required().regex(/^(admin|lecturer|student|medical|head)$/),
     password: Joi.string().required().min(8),
     courses: Joi.array().items(Joi.string().regex(/^(CSC|MAT|FSC|AMT|PHY)[a-zA-Z0-9]{3}([0-9]|α|β|δ)/))
   });

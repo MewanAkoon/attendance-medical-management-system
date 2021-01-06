@@ -19,7 +19,7 @@ class AttendanceLec extends Component {
 		const { date } = this.state;
 
 		return (
-			<Accordion>
+			<Accordion className='mb-4'>
 				{courses.map(c => (
 					<Card key={c} style={{ cursor: 'pointer' }}>
 						<Course

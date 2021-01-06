@@ -64,8 +64,6 @@ router.post('/:code', async (req, res) => {
     const date = getDate(req.body.date);
 
     attendances = attendances.filter(a => getDate(a.timestamp) === date);
-
-    if (attendances.length === 0) return res.status(404).send(attendances);
     res.send(attendances);
   } catch (err) {
     res.status(400).send(err);

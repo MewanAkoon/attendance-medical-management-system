@@ -5,7 +5,13 @@ import Notification from '../../common/notification';
 import { NavDropdown } from 'react-bootstrap';
 
 class Notifications extends Component {
-	state = { notifications: [], courses: [], count: 0, watched: false };
+	state = {
+		role: '',
+		notifications: [],
+		courses: [],
+		count: 0,
+		watched: false
+	};
 
 	async componentDidMount() {
 		try {
@@ -17,9 +23,9 @@ class Notifications extends Component {
 	}
 
 	renderData = async () => {
-		const { id } = this.props.user;
+		const { id, role } = this.props.user;
 		const { data } = await axios.get(`/api/users/${id}`);
-		this.setState({ courses: data.courses });
+		this.setState({ courses: data.courses, role });
 	};
 
 	loadNotifications = () => {
@@ -50,11 +56,15 @@ class Notifications extends Component {
 	};
 
 	getBellIcon = () => {
-		const { count, watched } = this.state;
+		const { count, watched, role } = this.state;
 		return (
 			<React.Fragment>
 				<i className='text-white fa fa-bell' aria-hidden='true' />
-				{count > 0 && !watched && <span className='icon-badge'>{count}</span>}
+				{count > 0 && !watched && (
+					<span className={role === 'head' ? 'icon-badge-head' : 'icon-badge'}>
+						{count}
+					</span>
+				)}
 			</React.Fragment>
 		);
 	};

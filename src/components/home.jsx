@@ -13,6 +13,7 @@ const Home = props => {
 	switch (props.user.role) {
 		case 'admin':
 			return sayHello(props.user);
+		case 'head':
 		case 'lecturer':
 		case 'student':
 			return <Courses {...props} />;

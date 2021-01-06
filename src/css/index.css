@@ -26,3 +26,19 @@
   align-items: center;
   border-radius: 50%;
 }
+
+.icon-badge-head {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 15%;
+  right: 2%;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  background-color: #ed5c5c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}

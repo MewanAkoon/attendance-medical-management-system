@@ -9,6 +9,20 @@ import StudentNav from './student/navItem';
 import MessageMenu from './message';
 import NotificationMenu from './notification';
 
+const getNavItems = (role, props) => {
+	switch (role) {
+		case 'lecturer':
+		case 'head':
+			return <LecturerNav {...props} />;
+		case 'student':
+			return <StudentNav {...props} />;
+		case 'medical':
+			return <MedicalNav {...props} />;
+		default:
+			return null;
+	}
+};
+
 const Navbar = props => {
 	const { id, firstName, username, role } = props;
 	const dispatch = useDispatch();
@@ -39,9 +53,12 @@ const Navbar = props => {
 					<NavDropdown
 						title={<i className='fa fa-cog text-white' aria-hidden='true' />}
 						id='dropdown-navbar'>
-						{role === 'medical' && <MedicalNav {...props} />}
-						{role === 'lecturer' && <LecturerNav {...props} />}
-						{role === 'student' && <StudentNav {...props} />}
+						{/* {role === 'medical' && <MedicalNav {...props} />}
+						{role === 'student' && <StudentNav {...props} />} */}
+						{/* {(role === 'lecturer') | (role === 'head') && (
+							<LecturerNav {...props} />
+						)} */}
+						{getNavItems(role, props)}
 
 						<NavDropdown.Item onClick={() => dispatch(userLoggedOut())}>
 							<i className='fa fa-sign-out mr-2' aria-hidden='true' />

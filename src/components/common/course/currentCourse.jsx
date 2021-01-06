@@ -26,6 +26,7 @@ class CurrentCourse extends Component {
 
 		switch (user.role) {
 			case 'lecturer':
+			case 'head':
 				return <Lecturer {...this.props} />;
 			case 'student':
 				return <Student {...this.props} />;

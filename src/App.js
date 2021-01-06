@@ -16,7 +16,7 @@ const App = () => {
   const user = useSelector(getLoggedInUserDetails);
 
   let navClasses = 'navbar navbar-expand-sm navbar-dark bg-';
-  navClasses += user.role === 'medical' ? 'success' : user.role === 'admin' ? 'danger' : 'primary';
+  navClasses += user.role === 'medical' ? 'success' : user.role === 'head' | 'admin' ? 'danger' : 'primary';
 
   return (
     <React.Fragment>

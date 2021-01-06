@@ -56,7 +56,7 @@
   "username": "Lopez",
   "cityOrTown": "Cheyenne",
   "country": "USA",
-  "role": "lecturer",
+  "role": "head",
   "courses": ["CSC2222", "CSC2242", "CSC2263"],
   "password": "12345678"
 }]

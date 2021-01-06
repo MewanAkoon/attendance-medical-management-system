@@ -6,10 +6,7 @@ const Login = props => {
 	const { id, firstName, username } = props.user;
 	const dispatch = useDispatch();
 
-	const handleCancel = () => {
-		console.log('Cancel');
-		props.history.push('/home');
-	};
+	const handleCancel = () => props.history.push('/home');
 
 	return (
 		<React.Fragment>
