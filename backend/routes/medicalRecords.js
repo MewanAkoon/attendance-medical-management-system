@@ -5,8 +5,16 @@ const { MedicalRecord, validate } = require('../models/medicalRecord');
 router.get('/', async (req, res) => {
   try {
     const records = await MedicalRecord.find().populate('index', 'firstName username');
-    if (records.length === 0) return res.status(404).send(records);
     res.send(records);
+  } catch (err) {
+    res.status(404).send([]);
+  }
+});
+
+router.get('/:index', async (req, res) => {
+  try {
+    const record = await MedicalRecord.findOne({ index: req.params.index });
+    res.send(record);
   } catch (err) {
     res.status(404).send([]);
   }

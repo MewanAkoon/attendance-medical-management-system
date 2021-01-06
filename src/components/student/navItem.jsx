@@ -11,6 +11,10 @@ const StudentNav = () => {
 				<i className='fa fa-industry mr-2' aria-hidden='true' />
 				View Attendance
 			</NavDropdown.Item>
+			<NavDropdown.Item onClick={() => history.push('/absent')}>
+				<i className='fa fa-stethoscope mr-2' aria-hidden='true' />
+				Submit Medical Report
+			</NavDropdown.Item>
 			<hr className='my-1 mx-2' />
 		</React.Fragment>
 	);

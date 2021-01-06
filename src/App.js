@@ -11,6 +11,8 @@ import NotFound from './components/notFound';
 import CurrentCourse from './components/common/course/currentCourse';
 import MedicalRecords from './components/medical/medicalRecords';
 import Attendance from './components/attendance';
+import SubmitMedicalPage from './components/student/submit-medicals';
+import ViewSubmittedMedicals from './components/student/submit-medicals/view';
 
 const App = () => {
   const user = useSelector(getLoggedInUserDetails);
@@ -27,6 +29,8 @@ const App = () => {
       </div>
       <div className='container mt-3'>
         <Switch>
+          <Route path='/view/medicals/:id' render={ props => <ViewSubmittedMedicals user={ user } { ...props } /> } />
+          <Route path='/absent/' render={ props => <SubmitMedicalPage user={ user } { ...props } /> } />
           <Route path='/attendance' render={ props => <Attendance user={ user } { ...props } /> } />
           <Route path='/medical/records' render={ props => <MedicalRecords user={ user } { ...props } /> } />
           <Route path='/courses/:code' render={ props => <CurrentCourse user={ user } { ...props } /> } />
