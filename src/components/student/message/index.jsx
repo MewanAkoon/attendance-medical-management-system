@@ -124,6 +124,10 @@ class Messages extends Component {
 		));
 	};
 
+	renderNoMessages = () => (
+		<div className='text-muted text-center mt-4'>You have no messages.</div>
+	);
+
 	render() {
 		return (
 			<NavDropdown
@@ -133,7 +137,9 @@ class Messages extends Component {
 				<div className='px-4 py-1' style={{ width: 400, minHeight: 150 }}>
 					<p className='text-dark m-0'>Messages</p>
 					<hr className='my-2' />
-					{this.state.count > 0 && this.renderMessage()}
+					{this.state.count > 0
+						? this.renderMessage()
+						: this.renderNoMessages()}
 				</div>
 			</NavDropdown>
 		);

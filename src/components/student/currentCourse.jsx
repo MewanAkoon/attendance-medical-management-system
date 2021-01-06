@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { isActive } from '../common/isActive';
 import axios from 'axios';
 import { Breadcrumb } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 class CurrentCourse extends Component {
 	state = { course: {}, active: false, marked: false, password: '' };
@@ -87,6 +88,13 @@ class CurrentCourse extends Component {
 		);
 	};
 
+	renderNotActiveMessage = () => (
+		<div>
+			Course is currently not active.
+			<Link to='/attendance'> View Attendance</Link>
+		</div>
+	);
+
 	render() {
 		const { active, marked, password } = this.state;
 
@@ -95,13 +103,9 @@ class CurrentCourse extends Component {
 				{this.renderBreadCrumbs()}
 				<div className='jumbotron p-2 py-4 text-center'>
 					{this.getHeader()}
-					{active ? (
-						this.renderMessage(password, marked)
-					) : (
-						<div className='alert alert-secondary w-75 mx-auto mb-0'>
-							Course is not currently active
-						</div>
-					)}
+					{active
+						? this.renderMessage(password, marked)
+						: this.renderNotActiveMessage()}
 				</div>
 			</React.Fragment>
 		);

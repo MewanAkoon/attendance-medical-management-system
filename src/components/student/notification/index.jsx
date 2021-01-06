@@ -95,6 +95,12 @@ class Notifications extends Component {
 		);
 	};
 
+	renderNoNotifications = () => (
+		<div className='text-muted text-center mt-4'>
+			You have no notifications.
+		</div>
+	);
+
 	render() {
 		return (
 			<NavDropdown
@@ -104,7 +110,9 @@ class Notifications extends Component {
 				<div className='px-4 py-1' style={{ width: 400, minHeight: 150 }}>
 					<p className='text-dark m-0'>Notifications</p>
 					<hr className='my-2' />
-					{this.state.count > 0 && this.renderNotification()}
+					{this.state.count > 0
+						? this.renderNotification()
+						: this.renderNoNotifications()}
 				</div>
 			</NavDropdown>
 		);

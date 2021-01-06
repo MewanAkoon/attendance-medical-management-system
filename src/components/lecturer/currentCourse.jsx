@@ -6,6 +6,7 @@ import Loading from '../common/loading';
 import Form from '../common/form';
 import { isActive } from '../common/isActive';
 import { Breadcrumb } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 class CurrentCourse extends Form {
 	state = {
@@ -119,6 +120,13 @@ class CurrentCourse extends Form {
 		);
 	};
 
+	renderNotActiveMessage = () => (
+		<div>
+			Course is currently not active.
+			<Link to='/attendance'> View Attendance</Link>
+		</div>
+	);
+
 	renderForm = () => {
 		const { active, password, data, qrGenerated } = this.state;
 
@@ -159,25 +167,31 @@ class CurrentCourse extends Form {
 	};
 
 	render() {
-		return this.state.loading ? (
+		const { loading, active, url } = this.state;
+
+		return loading ? (
 			<Loading />
 		) : (
 			<React.Fragment>
 				{this.renderBreadCrumbs()}
 				<div className='jumbotron p-2 py-4 text-center'>
 					{this.getHeader()}
-					<div className='mt-4'>
-						{this.renderForm()}
-						{this.state.url && (
-							<a
-								href={this.state.url}
-								className='qrbox mt-4 mx-auto'
-								target='_blank'
-								rel='noreferrer'>
-								<img src={this.state.url} className='w-100' alt='qr-code' />
-							</a>
-						)}
-					</div>
+					{active ? (
+						<div className='mt-4'>
+							{this.renderForm()}
+							{url && (
+								<a
+									href={url}
+									className='qrbox mt-4 mx-auto'
+									target='_blank'
+									rel='noreferrer'>
+									<img src={url} className='w-100' alt='qr-code' />
+								</a>
+							)}
+						</div>
+					) : (
+						this.renderNotActiveMessage()
+					)}
 				</div>
 			</React.Fragment>
 		);
