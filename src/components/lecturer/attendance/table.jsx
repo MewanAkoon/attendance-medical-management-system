@@ -7,6 +7,7 @@ class AttendanceTable extends Component {
 	state = {
 		present: [],
 		total: [],
+		filtered: [],
 		students: [],
 		lecture: '',
 		date: '',
@@ -48,7 +49,8 @@ class AttendanceTable extends Component {
 				lecture,
 				date,
 				course,
-				pdfData: {}
+				pdfData: {},
+				filtered: []
 			});
 		} catch (err) {
 			console.error(err.message);
@@ -81,7 +83,7 @@ class AttendanceTable extends Component {
 	};
 
 	renderDownloadPdfButton = () => (
-		<button className='btn btn-primary w-100' onClick={this.generatePdf}>
+		<button className='btn btn-primary w-100 btn-sm' onClick={this.generatePdf}>
 			<small>
 				GENERATE PDF <i className='fa fa-download ml-1' aria-hidden='true' />
 			</small>
@@ -94,23 +96,55 @@ class AttendanceTable extends Component {
 
 	renderLectureDetails = () => {
 		return (
-			<p className='lead text-dark' style={{ cursor: 'default' }}>
+			<p className='lead text-dark mb-2' style={{ cursor: 'default' }}>
 				<i className='fa fa-pencil-square-o mr-2' aria-hidden='true' />
 				{this.state.lecture}
 			</p>
 		);
 	};
 
+	handleSearchBox = ({ currentTarget: { value: index } }) => {
+		const { total } = this.state;
+		let filtered = [];
+		if (index) filtered = total.filter(record => record._id.includes(index));
+		this.setState({ filtered });
+	};
+
+	renderSearchBox() {
+		return (
+			<form className='form-inline justify-content-end d-flex md-form form-sm h-100'>
+				<i className='fa fa-search' aria-hidden='true' />
+				<input
+					className='form-control form-control-sm ml-2'
+					type='text'
+					name='search'
+					placeholder='Search Index (sc*****)'
+					aria-label='Search Index'
+					onChange={this.handleSearchBox}
+				/>
+			</form>
+		);
+	}
+
+	getRecords() {
+		const { total, filtered } = this.state;
+		return filtered.length > 0 ? filtered : total;
+	}
+
 	render() {
-		const { present, total: records, pdfData } = this.state;
+		const { present, total, pdfData } = this.state;
+
+		const records = this.getRecords();
 
 		return !pdfData.items ? (
 			<div className='jumbotron py-4'>
-				{renderData(present.length, records.length)}
+				{renderData(present.length, total.length)}
 
-				<div className='row justify-content-between'>
-					<div className='col-9'>{this.renderLectureDetails()}</div>
-					<div className='col'>{this.renderDownloadPdfButton()}</div>
+				<div className='col-9'>{this.renderLectureDetails()}</div>
+
+				<div className='row mb-2'>
+					<div className='col-8'>{this.renderDownloadPdfButton()}</div>
+					<div className='col'>{this.renderSearchBox()}</div>
 				</div>
 
 				<table className='table table-hover table-sm'>
