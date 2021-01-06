@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const { User, validate } = require('../models/user');
 
@@ -36,7 +36,12 @@ router.post('/', async (req, res) => {
   if (error) return res.status(404).send(error.details[0].message);
 
   try {
-    const user = new User(req.body);
+    // hashing the password
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const body = { ...req.body };
+    body.password = hashedPassword;
+
+    const user = new User(body);
     await user.save();
     res.send(user);
   } catch (err) {
@@ -48,7 +53,7 @@ router.post('/:id/:password', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (user) {
-      if (user.password === req.params.password) return res.status(200).send(user);
+      if (await bcrypt.compare(req.params.password, user.password)) return res.status(200).send(user);
       return res.status(401).send('Invalid login, please try again');
     }
     res.status(404).send('Invalid login, user not found');
