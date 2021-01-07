@@ -106,6 +106,14 @@ class CurrentCourse extends Component {
 					{active
 						? this.renderMessage(password, marked)
 						: this.renderNotActiveMessage()}
+
+					{/* {password && !marked && (
+						<button
+							className='btn btn-primary'
+							onClick={() => this.markAttendance(password)}>
+							Scan QR
+						</button>
+					)} */}
 				</div>
 			</React.Fragment>
 		);
