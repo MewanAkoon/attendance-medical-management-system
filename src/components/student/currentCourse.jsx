@@ -65,16 +65,19 @@ class CurrentCourse extends Component {
 
 	renderMessage = (password, marked) => {
 		return marked ? (
-			<div className='alert alert-success w-75 mx-auto mb-0'>
+			<div>
 				<span>You already Marked Attendance for this course.</span>
+				<Link to='/attendance'> View Attendance</Link>
 			</div>
 		) : password ? (
-			<div className='alert alert-warning w-75 mx-auto mb-0'>
+			<div>
 				<span>You can mark your attendance from the mobile app.</span>
+				<Link to='/attendance'> View Attendance</Link>
 			</div>
 		) : (
-			<div className='alert alert-primary w-75 mx-auto mb-0'>
+			<div>
 				<span>Course is currently active.</span>
+				<Link to='/attendance'> View Attendance</Link>
 			</div>
 		);
 	};

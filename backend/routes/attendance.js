@@ -86,9 +86,10 @@ router.post('/:studentId/:courseId', async (req, res) => {
 const isMarked = attendance => {
   const timestamp = moment(attendance.timestamp, 'YYYY:MM:DD HH:mm:ss');
   const { schedule } = attendance.course;
+  const currentDate = moment();
 
   const marked =
-    timestamp.day() === schedule.day &&
+    timestamp.date() === currentDate.date() &&
     timestamp.hour() >= schedule.startTime &&
     timestamp.hour() < schedule.startTime + schedule.duration;
 

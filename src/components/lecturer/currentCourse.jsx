@@ -40,6 +40,9 @@ class CurrentCourse extends Form {
 
 			const password = data.password ? data.password : '';
 
+			console.log(data.schedule);
+			console.log(data.dates);
+
 			const qrGenerated = this.isQRGenerated(data.schedule, data.dates);
 
 			this.setState({ course, active, password, qrGenerated, loading: false });
@@ -71,8 +74,10 @@ class CurrentCourse extends Form {
 	isQRGenerated = (schedule, dates) => {
 		const item = dates.filter(d => {
 			const timestamp = moment(d.date, 'YYYY:MM:DD HH:mm:ss');
+			const currentDate = moment();
+
 			return (
-				timestamp.day() === schedule.day &&
+				timestamp.date() === currentDate.date() &&
 				timestamp.hour() >= schedule.startTime &&
 				timestamp.hour() < schedule.startTime + schedule.duration
 			);
