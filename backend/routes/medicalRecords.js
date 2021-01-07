@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
 const { MedicalRecord, validate } = require('../models/medicalRecord');
+const { MedicalSubmission } = require('../models/medicalSubmission');
 
 router.get('/', async (req, res) => {
   try {
@@ -14,8 +16,13 @@ router.get('/', async (req, res) => {
 router.get('/:index', async (req, res) => {
   try {
     const record = await MedicalRecord.findOne({ index: req.params.index });
+    if (!record) return res.send(record);
+
+    const used = await MedicalSubmission.findOne({ mcNumber: record._id });
+    if (used) return res.send({});
     res.send(record);
   } catch (err) {
+    console.log(err);
     res.status(404).send([]);
   }
 });

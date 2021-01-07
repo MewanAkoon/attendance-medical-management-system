@@ -9,6 +9,7 @@ const usersRoute = require('./routes/users');
 const coursesRoute = require('./routes/courses');
 const medicalsRoute = require('./routes/medicalRecords');
 const attendanceRoute = require('./routes/attendance');
+const submitMedicalRoute = require('./routes/medicalSubmission');
 
 app.use(cors());
 app.use(helmet());
@@ -23,6 +24,7 @@ app.use('/api/users', usersRoute);
 app.use('/api/courses', coursesRoute);
 app.use('/api/medicals', medicalsRoute);
 app.use('/api/attendance', attendanceRoute);
+app.use('/api/submitMedical', submitMedicalRoute);;
 
 app.get('/', (req, res) => {
   res.send('Welcome to AMMS - UOR');

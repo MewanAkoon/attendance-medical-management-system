@@ -2,8 +2,7 @@ import React from 'react';
 import Form from '../../common/form';
 import Joi from 'joi';
 import axios from 'axios';
-// import { Breadcrumb, Dropdown } from 'react-bootstrap';
-// import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 class MedicalForm extends Form {
 	state = {
@@ -29,6 +28,28 @@ class MedicalForm extends Form {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps !== this.props) this.loadData();
+	}
+
+	setStateToInitialState() {
+		const { index, count, absentLectures } = this.state;
+
+		const newState = {
+			index,
+			absentLectures,
+			count,
+			medicalRecord: '',
+			data: {
+				name: '',
+				address: '',
+				contactNumber: '',
+				registeredNumber: '',
+				academicYear: '',
+				level: '',
+				semester: ''
+			},
+			errors: {}
+		};
+		this.setState(newState);
 	}
 
 	async loadData() {
@@ -61,9 +82,12 @@ class MedicalForm extends Form {
 	}
 
 	schema = Joi.object({
-		name: Joi.string().required().label('Name'),
-		address: Joi.string().required().label('Address'),
-		contactNumber: Joi.string().required().label('Contact Number'),
+		name: Joi.string().min(5).required().label('Name'),
+		address: Joi.string().min(5).max(50).required().label('Address'),
+		contactNumber: Joi.string()
+			.regex(/^[0-9]{10}$/)
+			.required()
+			.label('Contact Number'),
 		registeredNumber: Joi.string().required().label('Registered Number'),
 		academicYear: Joi.number().required().label('Academic Year'),
 		level: Joi.number().required().min(1).max(4).label('Level'),
@@ -71,29 +95,28 @@ class MedicalForm extends Form {
 	});
 
 	doSubmit = async () => {
-		// const { index, reason, year, semester, livingPlace } = this.state.data;
-		// try {
-		// 	await axios.post(`/api/medicals`, {
-		// 		index,
-		// 		reason,
-		// 		year: parseInt(year),
-		// 		semester: parseInt(semester),
-		// 		livingPlace
-		// 	});
-		// 	toast.success('Medical Submitted.');
-		// 	this.setState({
-		// 		data: {
-		// 			index: '',
-		// 			reason: '',
-		// 			year: '',
-		// 			semester: '',
-		// 			livingPlace: 'hostel'
-		// 		},
-		// 		errors: {}
-		// 	});
-		// } catch (err) {
-		// 	console.log(err);
-		// }
+		const { index, absentLectures, medicalRecord: mcNumber, data } = this.state;
+
+		const body = {
+			index,
+			absentLectures,
+			mcNumber,
+			name: data.name,
+			address: data.address,
+			contactNumber: data.contactNumber,
+			registeredNumber: data.registeredNumber,
+			academicYear: data.academicYear,
+			level: data.level,
+			semester: data.semester
+		};
+
+		try {
+			await axios.post(`/api/submitMedical`, body);
+			toast.success('Medical Submitted');
+			this.setStateToInitialState();
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	renderAbsentCourses() {
@@ -132,25 +155,57 @@ class MedicalForm extends Form {
 		);
 	}
 
+	renderMessages() {
+		const { count, medicalRecord } = this.state;
+
+		return (
+			<div className='text-center'>
+				{count > 0 && !medicalRecord && (
+					<p className='mb-0'>You dont have available medical records.</p>
+				)}
+				{count === 0 && <p className='mb-0'>You don't have absent courses.</p>}
+			</div>
+		);
+	}
+
 	render() {
+		const { count, medicalRecord } = this.state;
+
 		return (
 			<React.Fragment>
+				<ToastContainer
+					position='top-center'
+					autoClose={2000}
+					pauseOnHover={false}
+					hideProgressBar={true}
+					className='text-center'
+				/>
+
 				<div className='jumbotron mx-auto pt-4 pb-5'>
-					<h1 className='text-center display-4 mb-4'>
-						Medical Submission Form
-					</h1>
-					<form onSubmit={this.handleSubmit} className='mx-auto w-50'>
-						{this.renderInput('name', 'Name')(true)}
-						{this.renderInput('address', 'Address')(false)}
-						{this.renderInput('contactNumber', 'Contact Number')(false)}
-						{this.renderInput('registeredNumber', 'Registered Number')(false)}
-						{this.renderInput('academicYear', 'Academic Year')(false)}
-						{this.renderInput('level', 'Level')(false)}
-						{this.renderInput('semester', 'Semester')(false)}
-						{this.renderAbsentCourses()}
-						{this.renderMedicalCertificateNumber()}
-						{this.renderSubmitButton('Submit')}
-					</form>
+					{count > 0 && medicalRecord ? (
+						<React.Fragment>
+							<h1 className='text-center display-4 mb-4'>
+								Medical Submission Form
+							</h1>
+							<form onSubmit={this.handleSubmit} className='mx-auto w-50'>
+								{this.renderInput('name', 'Name')(true)}
+								{this.renderTextArea('address', 'Address')}
+								{this.renderInput('contactNumber', 'Contact Number')(false)}
+								{this.renderInput(
+									'registeredNumber',
+									'Registered Number'
+								)(false)}
+								{this.renderInput('academicYear', 'Academic Year')(false)}
+								{this.renderInput('level', 'Level')(false)}
+								{this.renderInput('semester', 'Semester')(false)}
+								{this.renderAbsentCourses()}
+								{this.renderMedicalCertificateNumber()}
+								{this.renderSubmitButton('Submit')}
+							</form>
+						</React.Fragment>
+					) : (
+						this.renderMessages()
+					)}
 				</div>
 			</React.Fragment>
 		);
