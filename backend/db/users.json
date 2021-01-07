@@ -1,62 +1,145 @@
 [{
-  "_id": "sc10266",
-  "firstName": "SC/2017/10266",
-  "username": "Pabasara",
-  "cityOrTown": "Galle",
-  "country": "Sri lanka",
-  "role": "student",
-  "password": "12345678",
-  "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213"]
-}, {
-  "_id": "sc10264",
-  "firstName": "SC/2017/10264",
-  "username": "Yapa",
-  "cityOrTown": "Matara",
-  "country": "Sri lanka",
-  "role": "student",
-  "password": "12345678",
-  "courses": ["CSC2233", "CSC2252", "CSC2272", "CSC2213"]
-}, {
-  "_id": "sc10262",
-  "firstName": "SC/2017/10262",
-  "username": "Hemathilaka",
-  "cityOrTown": "Kurunagala",
-  "country": "Sri lanka",
-  "role": "student",
-  "password": "12345678",
-  "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213"]
-}, {
-  "_id": "admin1",
-  "firstName": "Damitha",
-  "username": "Amarakoon",
-  "cityOrTown": "Welimada",
-  "country": "Sri lanka",
-  "role": "admin",
-  "password": "12345678"
-}, {
-  "_id": "med1",
-  "firstName": "John",
-  "username": "Doe",
-  "cityOrTown": "Matara",
-  "country": "Sri lanka",
-  "role": "medical",
-  "password": "12345678"
-}, {
-  "_id": "lec1",
-  "firstName": "Jason",
-  "username": "King",
-  "cityOrTown": "Charleston",
-  "country": "USA",
-  "role": "lecturer",
-  "courses": ["CSC2213", "CSC2233", "CSC2252", "CSC2272"],
-  "password": "12345678"
-}, {
-  "_id": "lec2",
-  "firstName": "Frank",
-  "username": "Lopez",
-  "cityOrTown": "Cheyenne",
-  "country": "USA",
-  "role": "head",
-  "courses": ["CSC2222", "CSC2242", "CSC2263"],
-  "password": "12345678"
-}]
+    "_id": "sc10266",
+    "firstName": "SC/2017/10266",
+    "username": "Pabasara",
+    "cityOrTown": "Galle",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10264",
+    "firstName": "SC/2017/10264",
+    "username": "Yapa",
+    "cityOrTown": "Matara",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10262",
+    "firstName": "SC/2017/10262",
+    "username": "Hemathilaka",
+    "cityOrTown": "Kurunagala",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  },
+  {
+    "_id": "sc10300",
+    "firstName": "SC/2017/10300",
+    "username": "Ranabahu",
+    "cityOrTown": "Kurunegala",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10291",
+    "firstName": "SC/2017/10291",
+    "username": "Nuwarawewa",
+    "cityOrTown": "Anuradhapura",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10281",
+    "firstName": "SC/2017/10281",
+    "username": "Ravihara",
+    "cityOrTown": "Kegalle",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10289",
+    "firstName": "SC/2017/10289",
+    "username": "Akshura",
+    "cityOrTown": "Ampara",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10297",
+    "firstName": "SC/2017/10297",
+    "username": "Lakshitha",
+    "cityOrTown": "Gampaha",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10277",
+    "firstName": "SC/2017/10277",
+    "username": "Wijendra",
+    "cityOrTown": "Galle",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10305",
+    "firstName": "SC/2017/10305",
+    "username": "Sudath",
+    "cityOrTown": "Hambantota",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10270",
+    "firstName": "SC/2017/10270",
+    "username": "Wickamanayaka",
+    "cityOrTown": "Ratnapura",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "sc10274",
+    "firstName": "SC/2017/10274",
+    "username": "Weerasinghe",
+    "cityOrTown": "Kandy",
+    "country": "Sri lanka",
+    "role": "student",
+    "password": "12345678",
+    "courses": ["CSC2233", "CSC2263", "CSC2272", "CSC2213", "CSC2242", "CSC2222", "CSC2252"]
+  }, {
+    "_id": "admin1",
+    "firstName": "Damitha",
+    "username": "Amarakoon",
+    "cityOrTown": "Welimada",
+    "country": "Sri lanka",
+    "role": "admin",
+    "password": "12345678"
+  }, {
+    "_id": "med1",
+    "firstName": "John",
+    "username": "Doe",
+    "cityOrTown": "Matara",
+    "country": "Sri lanka",
+    "role": "medical",
+    "password": "12345678"
+  }, {
+    "_id": "lec1",
+    "firstName": "Jason",
+    "username": "King",
+    "cityOrTown": "Charleston",
+    "country": "USA",
+    "role": "lecturer",
+    "courses": ["CSC2263", "CSC2213", "CSC2252", "CSC2233"],
+    "password": "12345678"
+  }, {
+    "_id": "lec2",
+    "firstName": "Frank",
+    "username": "Lopez",
+    "cityOrTown": "Cheyenne",
+    "country": "USA",
+    "role": "head",
+    "courses": ["CSC2242", "CSC2222", "CSC2272"],
+    "password": "12345678"
+  }
+]
