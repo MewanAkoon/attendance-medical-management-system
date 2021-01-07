@@ -11,8 +11,10 @@ const renderAlert = () => {
 const renderTable = record => {
 	const { absentLectures, mcNumber } = record;
 	return (
-		<table className='table table-secondary table-sm' style={{ fontSize: 12 }}>
-			<thead>
+		<table
+			className='table table-bordered table-sm mt-4'
+			style={{ fontSize: 12 }}>
+			<thead className='thead-dark'>
 				<tr>
 					<th>Name of Subject</th>
 					<th>Subject Code</th>
@@ -51,7 +53,7 @@ const renderMedicalForm = (records, date) => {
 				</p>
 			</div>
 
-			<div className='w-75 mx-auto'>
+			<div className='w-75 mx-auto mt-4'>
 				<div className='row'>
 					<div className='col-6'>01. Name</div>
 					<div className='col'>: {record.name}</div>

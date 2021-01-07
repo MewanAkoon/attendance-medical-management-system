@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { Breadcrumb } from 'react-bootstrap';
 import ViewMedical from './viewMedical';
 
@@ -43,7 +44,7 @@ class ViewSubmittedMedicals extends Component {
 						className='btn btn-outline-primary btn-sm'
 						style={{ minHeight: 60 }}
 						onClick={() => this.handleDateSelect(r.timestamp)}>
-						{r.timestamp}
+						{moment(r.timestamp).format('YYYY:MM:DD HH:mm:ss a')}
 					</button>
 				))}
 			</div>
