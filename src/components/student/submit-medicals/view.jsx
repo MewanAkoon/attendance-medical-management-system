@@ -16,6 +16,12 @@ class ViewSubmittedMedicals extends Component {
 		}
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps !== this.props) {
+			if (!this.props.user.id) this.redirectToHome();
+		}
+	}
+
 	renderBreadCrumbs = () => {
 		return (
 			<Breadcrumb>
@@ -61,6 +67,8 @@ class ViewSubmittedMedicals extends Component {
 			</React.Fragment>
 		);
 	};
+
+	redirectToHome = () => this.props.history.push('/home');
 
 	render() {
 		const { records } = this.state;

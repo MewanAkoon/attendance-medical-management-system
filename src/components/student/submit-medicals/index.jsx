@@ -21,6 +21,12 @@ class SubmitMedicalPage extends Component {
 		}
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps !== this.props) {
+			if (!this.props.user.id) this.redirectToHome();
+		}
+	}
+
 	renderData = async () => {
 		const { id } = this.props.user;
 		const { data } = await axios.get(`/api/users/${id}`);
@@ -80,6 +86,8 @@ class SubmitMedicalPage extends Component {
 			});
 		}
 	};
+
+	redirectToHome = () => this.props.history.push('/home');
 
 	render() {
 		const { messages, count } = this.state;
