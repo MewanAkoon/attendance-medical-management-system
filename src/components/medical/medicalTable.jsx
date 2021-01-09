@@ -15,6 +15,7 @@ const renderMedicalTable = records => (
 	<table className='table table-hover'>
 		<thead className='thead-dark'>
 			<tr>
+				<th>MC Number</th>
 				<th>Index</th>
 				<th>Name</th>
 				<th>Reason</th>
@@ -25,6 +26,7 @@ const renderMedicalTable = records => (
 		<tbody>
 			{records.map(r => (
 				<tr key={r._id}>
+					<td>{r._id}</td>
 					<td>{r.index._id}</td>
 					<td>{r.index.username}</td>
 					<td>{r.reason}</td>

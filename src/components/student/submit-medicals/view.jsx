@@ -27,6 +27,7 @@ class ViewSubmittedMedicals extends Component {
 		return (
 			<Breadcrumb>
 				<Breadcrumb.Item href='/home'>Home</Breadcrumb.Item>
+				<Breadcrumb.Item href='/absent'>Submit Medical Report</Breadcrumb.Item>
 				<Breadcrumb.Item active>View Submitted Medicals</Breadcrumb.Item>
 			</Breadcrumb>
 		);

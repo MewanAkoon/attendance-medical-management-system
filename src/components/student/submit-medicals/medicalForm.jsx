@@ -82,7 +82,11 @@ class MedicalForm extends Form {
 	}
 
 	schema = Joi.object({
-		name: Joi.string().min(5).required().label('Name'),
+		name: Joi.string()
+			.min(5)
+			.required()
+			.label('Name')
+			.regex(/^[a-zA-Z ]+$/),
 		address: Joi.string().min(5).max(50).required().label('Address'),
 		contactNumber: Joi.string()
 			.regex(/^[0-9]{10}$/)
