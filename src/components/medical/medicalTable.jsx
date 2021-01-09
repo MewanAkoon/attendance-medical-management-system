@@ -2,13 +2,16 @@ import React from 'react';
 import moment from 'moment';
 
 const noRecordsFound = () => (
+	// displays a message if there are no records
 	<div className='alert alert-danger text-center w-50 mx-auto'>
 		<p className='lead mb-0'>No Records Found</p>
 	</div>
 );
 
+// gets the date in a specific format given a moment object
 const getDate = data => moment(data).format('MM-DD-YYYY');
 
+// gets the time in a specific format given a moment object
 const getTime = data => moment(data).format('hh:mm:ss');
 
 const renderMedicalTable = records => (
@@ -39,6 +42,7 @@ const renderMedicalTable = records => (
 );
 
 const MedicalTable = ({ records }) => {
+	// displays medical records if there are any or displays alert
 	return records.length > 0 ? renderMedicalTable(records) : noRecordsFound();
 };
 

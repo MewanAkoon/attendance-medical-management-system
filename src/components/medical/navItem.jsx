@@ -7,6 +7,7 @@ const MedicalNav = () => {
 
 	return (
 		<React.Fragment>
+			{/* renders nav items specific to a medical user */}
 			<NavDropdown.Item onClick={() => history.push('/medical/records')}>
 				<i className='fa fa-plus-square mr-2' aria-hidden='true' />
 				Medical Reports

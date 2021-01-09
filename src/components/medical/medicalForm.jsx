@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 class MedicalForm extends Form {
 	state = {
+		// form data object
 		data: {
 			index: '',
 			reason: '',
@@ -14,9 +15,11 @@ class MedicalForm extends Form {
 			semester: '',
 			livingPlace: 'hostel'
 		},
+		// form errors object
 		errors: {}
 	};
 
+	// schema for validating the form
 	schema = Joi.object({
 		index: Joi.string()
 			.required()
@@ -43,12 +46,15 @@ class MedicalForm extends Form {
 			prevState.data.index !== this.state.data.index &&
 			!this.state.errors.index
 		)
+			// changes the user(student) on state change
 			this.getUser(this.state.data.index);
 
 		if (prevState.errors.index !== this.state.errors.index)
+			// sets user to null on invalid student id
 			this.setInvalidUser();
 	}
 
+	// removes the user from the state
 	setInvalidUser = () => {
 		const data = { ...this.state.data };
 		delete data.firstName;
@@ -57,6 +63,7 @@ class MedicalForm extends Form {
 		this.setState({ data });
 	};
 
+	// gets the user when his/her's index number is entered
 	getUser = async index => {
 		try {
 			const { data: user } = await axios.get(
@@ -77,6 +84,7 @@ class MedicalForm extends Form {
 		}
 	};
 
+	// displays user details when the index number is entered
 	displayUserDetails = () => {
 		return (
 			<div className='d-flex mb-3'>

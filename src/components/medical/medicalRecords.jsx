@@ -12,7 +12,10 @@ class MedicalRecords extends Component {
 	state = { records: [], filtered: [], loading: true };
 
 	async componentDidMount() {
+		// gets all the medical records from the database
 		const { data: records } = await axios.get(`/api/medicals`);
+
+		// sort medical records from latest to the oldest
 		records.sort((a, b) => (moment(a).isSameOrAfter(b) ? 1 : -1));
 		this.setState({ records, loading: false });
 	}
@@ -29,10 +32,11 @@ class MedicalRecords extends Component {
 	handleSearchBox = ({ currentTarget: { value: index } }) => {
 		const { records } = this.state;
 		let filtered = [];
-		if (index) {
-			console.log(index);
+
+		// get records when searching for an index number
+		if (index)
 			filtered = records.filter(record => record.index._id.includes(index));
-		}
+
 		this.setState({ filtered });
 	};
 
@@ -54,6 +58,7 @@ class MedicalRecords extends Component {
 
 	getRecords() {
 		const { records, filtered } = this.state;
+		// returns all records when not searching, otherwise returns the filtered medical records
 		return filtered.length > 0 ? filtered : records;
 	}
 
@@ -62,7 +67,9 @@ class MedicalRecords extends Component {
 
 		return (
 			<React.Fragment>
+				{/* returns to the login page if the user logs out */}
 				{!this.props.user.id && <Redirect to='/login' />}
+
 				{loading ? (
 					<Loading />
 				) : (
